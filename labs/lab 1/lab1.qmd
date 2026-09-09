@@ -83,3 +83,71 @@ Prior to testing, the seven-segment display HDSP-511C was connected to a breadbo
 In conclusion, the FPGA and MCU were successfully set up and tested and the SystemVerilog design was implemented and tested through experimental and simulation methods. The design and modules made the SystemVerilog code more modular while the use of testbenches gave me and easy way to confirm code functionality before testing hardware. 
 
 # AI Prototype Summary
+For this AI prototype section, I prompted Claude's Sonnet 5 model using the prompt "Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg." as instructed. The model generated the following code:
+
+<details>
+  <summary>Click to view the counter testbench</summary>
+//==============================================================================
+// blink_led.sv
+// Blinks an LED at 2 Hz using the Lattice iCE40 UP5K's internal
+// high-speed oscillator (SB_HFOSC) — no external clock required.
+//==============================================================================
+
+module blink_led #(
+    parameter real CLK_FREQ_HZ   = 12_000_000.0,  // HFOSC output freq (see CLKHF_DIV below)
+    parameter real BLINK_FREQ_HZ = 2.0            // desired LED toggle rate
+) (
+    output logic led_o
+);
+
+    // HFOSC divider setting -> output frequency:
+    //   "0b00" = 48 MHz   "0b01" = 24 MHz   "0b10" = 12 MHz   "0b11" = 6 MHz
+    localparam string CLKHF_DIV = "0b10"; // 12 MHz, matches CLK_FREQ_HZ above
+
+    // Number of clk cycles per half-period (toggle event)
+    localparam int unsigned HALF_PERIOD_COUNT =
+        int'(CLK_FREQ_HZ / (2.0 * BLINK_FREQ_HZ));
+
+    // Width sized automatically from the computed count
+    localparam int unsigned CNT_WIDTH = $clog2(HALF_PERIOD_COUNT);
+
+    logic clk;
+    logic [CNT_WIDTH-1:0] count;
+    logic                 led_reg;
+
+    //--------------------------------------------------------------------
+    // Internal high-speed oscillator primitive
+    //--------------------------------------------------------------------
+    SB_HFOSC #(
+        .CLKHF_DIV(CLKHF_DIV)
+    ) u_hfosc (
+        .CLKHFPU (1'b1),   // power up oscillator
+        .CLKHFEN (1'b1),   // enable clock output
+        .CLKHF   (clk)
+    );
+
+    //--------------------------------------------------------------------
+    // Free-running divider + toggle flip-flop
+    // iCE40 SRAM cells power up with a known state, so initial values
+    // below set the configuration-time reset state (no external reset).
+    //--------------------------------------------------------------------
+    always_ff @(posedge clk) begin
+        if (count == HALF_PERIOD_COUNT[CNT_WIDTH-1:0] - 1'b1) begin
+            count   <= '0;
+            led_reg <= ~led_reg;
+        end else begin
+            count <= count + 1'b1;
+        end
+    end
+
+    initial begin
+        count   = '0;
+        led_reg = 1'b0;
+    end
+
+    assign led_o = led_reg;
+
+endmodule
+</details>
+
+While I was surprised that the AI chatbot was able to understand the task of using the onboard high-speed oscillator to blink the LED at 2Hz, it chose to use the divider setting of 12MHz instead of the 48MHz that I had used in my design. It als had a lot more local paramters and a more complex design than I had used. Overall, I was impressed with the AI's ability to generate a working SystemVerilog code that met the requirements of the prompt and its well commented and explained code. 
