@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "labs/lab 1/lab1.html",
+    "href": "labs/lab 1/lab1.html",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "",
+    "text": "In this lab, I set up the FPGA (Field-Programmable Gate Array) and MCU (Microcontroller Unit) and tested their functionality. The goal was to design a SystemVerilog-based FPGA system that used four DIP switches as inputs to control three LEDs and a seven-segment display. Combinational logic controlled two of the LEDs according to the specified logic operations and decoded the four-bit switch input for display as a hexadecimal digit on a common-anode seven-segment display. Sequential counter logic, driven by the FPGA’s internal high-speed oscillator (HSOSC), caused the third LED to blink at approximately 2.4 Hz. I simulated the design using QuestaSim before synthesizing and programming it using Lattice Radiant. Finally, I tested the design on the FPGA board to confirm that it functioned as expected."
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#development-board-assembly",
+    "href": "labs/lab 1/lab1.html#development-board-assembly",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Development Board Assembly",
+    "text": "Development Board Assembly\nThe provided board 155 board was an empty PCB that was to be popularted with both Through Hpole Technology (THT) and Surface Mount Technology (SMT) components to form the fully assembled board (Figure 1). The various components that I had to solder were the resistors, capacitors, voltage regulator, DIP switches, push-button switches, jumpers, and LEDs. The board also contains the Nucleo-L432KC microcontroller unit (MCU) and the UPduino v3.1 FPGA which were the main components of the board.\nInitial testing was done using to ensure that they were workinga nd able to communicate with one another. Lattice Radiant was used to program the FPGA to simply toggle a onboard LED at 1Hz using the HSOSC. The MCU was programmed using Segger Embeeded Studio to blink three other LEDs. After confirming that both the FPGA and MCU were working, I then moved on to designing the SystemVerilog modules.\n Figure 1: My assembled board (left) with the MPU and FPGA, which are powered by the attached microUSB cable or an on-board power supply. Annotated image (right) showing the location ofvarious components of the board."
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#fpga-design-and-verilog-structure",
+    "href": "labs/lab 1/lab1.html#fpga-design-and-verilog-structure",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "FPGA Design and Verilog Structure",
+    "text": "FPGA Design and Verilog Structure\n\nTop-Level Module\nThe SystemVerilog was split into a top-level module and two submodules: one was for the combinational seven-segment display decoder and the other for the sequential counter which controlled led[2] and caused it to blink at 2.4Hz. The overall top module then instantiated both the submodules and the on-board high-speed oscillator (HSOSC) from the iCE40 UltraPlus primitive library. The top module also included the switch-to-led logic to control led[0] and led[1] based on the DIP switch inputs.\n\n\nCounter Module\nCalculations were done to determine the expected number that the counter module would have to go uptil to acheive the desired flashing frequency of 2.4Hz (Period = 1/frequency = 1/2.4Hz = 0.4167s). This period needs account for the rise and fall of the LED, the counter must count for half of this period (0.4167s/2 = 0.2083s). Given the HSOSC frquency of 48MHz, the maxcount was calculated to be 48,000,000 * 0.2083s = 10,000,000. Hence, the counter was designed using the Verilog parameters with maxcount of 10,000,000 and width of 24 bits. After reaching this number, module then resets to zero and toggles led[2], achieving the frequency of 2.4Hz.\n\n\nSeven-Segment Display Module\nThe seven-segment display module was designed to decode the four-bit switch input s[3:0] and display the corresponding hexadecimal digit on the common-anode seven-segment display. More specifically, the design of the segment had to account for all numebr 1-9 and letters A-F having a unique display (for exampkle D and 0, thus a lower case d was used). For my module, seg[6] was the most significant bit and responded to A while seg[0] was the least significant bit and responded to G.\nThe common-anode display meant that the segments were turned on by driving them low, and off by driving them high. The module was designed using case statements with a default case to turn off all segments off when no input or reset is applied."
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#use-of-testbenches",
+    "href": "labs/lab 1/lab1.html#use-of-testbenches",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Use of Testbenches",
+    "text": "Use of Testbenches\nEach module was tested individually in QuestaSim using testbenches before hardware testing. These simulated the DIP switch inputs and verified that the outputs (LEDs and seven-segment display) responded correctly according to the design specifications. After testing the submodules, the top-level module was also tested using a testbench to verify that the entire design functioned as expected."
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#use-of-testbenches-and-simulations",
+    "href": "labs/lab 1/lab1.html#use-of-testbenches-and-simulations",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Use of Testbenches and Simulations",
+    "text": "Use of Testbenches and Simulations\nEach module was tested individually in QuestaSim using testbenches before hardware testing. These simulated the DIP switch inputs and verified that the outputs (LEDs and seven-segment display) responded correctly according to the design specifications. After testing the submodules, the top-level module was also tested using a testbench to verify that the entire design functioned as expected.\n– The counter module was tested using a automatic testbench by simulating the HSOSC clock and verifying that led[2] blinked at the expected frequency of 2.4Hz. The use of width and maxcount Verilog parameters allowed for easy adjustment of the counter and led[2]’s behavior for purposes of testing and waveform simulation. In addition to this, functionality of the reset, enable and max count features were also verified using the testbench.\n\nFigure 2: Waveform simulation of the counter module showing the reset and enable working. In this testbench, maxcount was set to 3, and led[2] toggled as desired after every 3 clock cycles.\n– The seven-segment display module was also tested using an automatic testbench that covered all 16 possible combinations of four DIP switch inputs. The testbench verified that each produced the correct hexadecimal digit.\n\nFigure 3: Waveform simulation of the seven-segment display module showing the correct hexadecimal digit displayed for each DIP switch input combination ranging from 4’b0000 to 4’b1111.\n– Finally, the top module is also tested to check whether the connections to all submodules is working as desired. the iCE40 UltraPlus primitive library was also tested to check whether the HSOSC clock is working.\n\nFigure 4: Waveform simulation of the top module showing the correct behavior of the entire design, including toggling of led[2], connection between submodules given that seven-segment and internal HSOSC clock are working as desired, and also correct functioning of led[0] and led[1] based on the DIP switch inputs."
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#simulation-results",
+    "href": "labs/lab 1/lab1.html#simulation-results",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Simulation Results",
+    "text": "Simulation Results\n– The counter module was tested using a automatic testbench by simulating the HSOSC clock and verifying that led[2] blinked at the expected frequency of 2.4Hz. The use of width and maxcount Verilog parameters allowed for easy adjustment of the counter and led[2]’s behavior for purposes of testing and waveform simulation. In addition to this, functionality of the reset, enable and max count features were also verified using the testbench.\n\nFigure 2: Waveform simulation of the counter module showing the reset and enable working. In this testbench, maxcount was set to 3, and led[2] toggled as desired after every 3 clock cycles.\n– The seven-segment display module was also tested using an automatic testbench that covered all 16 possible combinations of four DIP switch inputs. The testbench verified that each produced the correct hexadecimal digit.\n\nFigure 3: Waveform simulation of the seven-segment display module showing the correct hexadecimal digit displayed for each DIP switch input combination ranging from 4’b0000 to 4’b1111.\n– Finally, the top module is also tested to check whether the connections to all submodules is working as desired. the iCE40 UltraPlus primitive library was also tested to check whether the HSOSC clock is working.\n\nFigure 4: Waveform simulation of the top module showing the correct behavior of the entire design, including toggling of led[2], connection between submodules given that seven-segment and internal HSOSC clock are working as desired, and also correct functioning of led[0] and led[1] based on the DIP switch inputs."
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#testbench-simulation-results",
+    "href": "labs/lab 1/lab1.html#testbench-simulation-results",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Testbench Simulation Results",
+    "text": "Testbench Simulation Results\nThe counter module was tested using a automatic testbench by simulating the HSOSC clock and verifying that led[2] blinked at the expected frequency of 2.4Hz. The use of width and maxcount Verilog parameters allowed for easy adjustment of the counter and led[2]’s behavior for purposes of testing and waveform simulation. In addition to this, functionality of the reset, enable and max count features were also verified using the testbench.\n\n\nClick to view the counter testbench\n\n\n\nFigure 4: Waveform simulation of the counter module showing the reset and enable working. In this testbench, maxcount was set to 3, and led[2] toggled as desired after every 3 clock cycles.\n\n\nThe seven-segment display module was also tested using an automatic testbench that covered all 16 possible combinations of four DIP switch inputs. The testbench verified that each produced the correct hexadecimal digit.\n\n\nClick to view the seven-segment testbench\n\n\n\nFigure 5: Waveform simulation of the seven-segment display module showing the correct hexadecimal digit displayed for each DIP switch input combination ranging from 4’b0000 to 4’b1111.\n\n\nFinally, the top module is also tested to check whether the connections to all submodules is working as desired. the iCE40 UltraPlus primitive library was also tested to check whether the HSOSC clock is working.\n\n\nClick to view the top testbench\n\n\n\nFigure 6: Waveform simulation of the top module showing the correct behavior of the entire design, including toggling of led[2], connection between submodules given that seven-segment and internal HSOSC clock are working as desired, and also correct functioning of led[0] and led[1] based on the DIP switch inputs."
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#fpga-hardware-testing-results",
+    "href": "labs/lab 1/lab1.html#fpga-hardware-testing-results",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "FPGA Hardware Testing Results",
+    "text": "FPGA Hardware Testing Results\nAfter successful simulation of the design, the FPGA was programmed using Lattice Radiant to see if the desired LEDs and seven-segment display turned on as expected. The FPGA board is programmed with the .bin file that is generated after Design Synthesis of the top module. Pins were assigned to the DIP switch inputs s[3:0] and the outputs led[2:0] and seg[6:0] using the Lattice Radiant Pin Assignment tool.\nPrior to testing, the seven-segment display HDSP-511C was connected to a breadboard and the pins were connected to the FPGA board using a ribbon cable. The seven segment LEDs were then wired in series with a current-limiting resistor to ensure that the current draw from the FPGA board was less than 200mA and that each diode was getting a current ~8mA. Given that it typically has a forward voltage drop of 2V, and the FPGA board provides 3.3V, the resistor value was calculated as R = (Vdd - Vf)/If = (3.3V - 2V)/0.008A = 162.5Ω. So a standard 160Ω resistor was used."
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#github-repository",
+    "href": "labs/lab 1/lab1.html#github-repository",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "GitHub Repository",
+    "text": "GitHub Repository\nThe code for this lab is available on my GitHub repository:"
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#schematic-diagram",
+    "href": "labs/lab 1/lab1.html#schematic-diagram",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Schematic Diagram",
+    "text": "Schematic Diagram\n Figure 2: Schematic of FPGA design"
+  },
+  {
+    "objectID": "labs/lab 1/lab1.html#block-diagram",
+    "href": "labs/lab 1/lab1.html#block-diagram",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Block Diagram",
+    "text": "Block Diagram\n Figure 3: Block diagram of FPGA design"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "E155 (MicroPs) Portfolio",
+    "section": "",
+    "text": "I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences. My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems. You can learn more about my work and experience on my LinkedIn."
+  }
+]

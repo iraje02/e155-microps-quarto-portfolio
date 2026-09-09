@@ -1,0 +1,27 @@
+project:
+  type: website
+
+website:
+  title: "E155 (MicroPs) Portfolio"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: blog.qmd
+        text: Blog
+      - text: Labs
+        menu:
+          - href: labs/lab 1/lab1.qmd
+            text: Lab 1
+          - href: labs/lab 2/lab2.qmd
+            text: Lab 2
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+
+
