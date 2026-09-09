@@ -32,7 +32,7 @@ Each module was tested individually in QuestaSim using testbenches before hardwa
 
 # Technical Documentation
 ## GitHub Repository
-The code for this lab is available on my GitHub repository: [E155_MicroPs](https://github.com/iraje02/E155_MicroPs.git)
+The code for this lab is available on my GitHub repository: [Link to Github](https://github.com/iraje02/E155_MicroPs.git)
 
 ## Schematic Diagram
 ![](images/schematic.jpeg)
