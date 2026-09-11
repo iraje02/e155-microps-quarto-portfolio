@@ -1,0 +1,16 @@
+[
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/first-post 2.html",
+      "/posts/first-post.html"
+    ]
+  },
+  {
+    "listing": "/blog 2.html",
+    "items": [
+      "/posts/first-post 2.html",
+      "/posts/first-post.html"
+    ]
+  }
+]
