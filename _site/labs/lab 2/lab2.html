@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ishita Raje">
+<meta name="dcterms.date" content="2026-09-16">
 
-<title>lab2 – E155 (MicroPs) Portfolio</title>
+<title>Lab 2: Multiplexed 7-Segment Display and Keypad Row Scanning – E155 Microps Portfolio</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -30,7 +32,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
@@ -47,11 +48,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-445b8638c3d06994fee0907d791121c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -78,68 +79,280 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">E155 (MicroPs) Portfolio</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
-<span class="menu-text">Blog</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-labs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Labs</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-labs">    
-        <li>
-    <a class="dropdown-item" href="../../labs/lab 1/lab1.html">
- <span class="dropdown-text">Lab 1</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../labs/lab 2/lab2.html">
- <span class="dropdown-text">Lab 2</span></a>
-  </li>  
-    </ul>
-  </li>
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
-</header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 2: Multiplexed 7-Segment Display and Keypad Row Scanning</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ishita Raje </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 16, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this lab, I continued the modular FPGA design in Lab 1 by using the combinational seven-segment decoder module which allowed one hexadecimal value to be displayed and the parameterized counter module controlled. This allowed for this lab to focus on integrating a time-multiplexed dual display and a matrix-keypad scanner.</p>
+<p>The dual display helped show two independent hexadecimal values using one seven-segment decoder using one shared set of cathode signals. A counter rapidly alternated between the two display digits so that both appeared continuously illuminated.</p>
+<p>The keypad scanner sequentially activated four rows with each signal toggling at 2 Hz. Additionally, NPN transistors were used to convert the FPGA row signals into open-collector outputs, while pull-up resistors helped define column logic levels. Red and green LEDs were used to indicate the active row and detected keypad column.</p>
+</section>
+<section id="design-and-testing-methodology" class="level1">
+<h1>Design and Testing Methodology</h1>
+<section id="hardware-design" class="level2">
+<h2 class="anchored" data-anchor-id="hardware-design">Hardware Design</h2>
+<section id="multiplexed-seven-segment-display" class="level3">
+<h3 class="anchored" data-anchor-id="multiplexed-seven-segment-display">Multiplexed Seven-Segment Display</h3>
+<p>The two common-anode display used one set of seven segment cathode signals that were conmnected in parallel to both digits of the display using the [datasheet] ((https://www.broadcom.com/products/leds-and-displays/7-segment/through-hole/hdsp-5721). The SystemVerilog code implemented a multiplexing counter output which selected one of the two four-bit switch inputs and passed it into the seven-segment decoder. The same counter output enabled the corresponding display digit.</p>
+<p>The seven-segment module from Lab 1 was reused without any modifications. The decoder contained combinational logic that translated a 4-bit hexadecimal input into an active-low seven-segment pattern. The multiplexer selection logic added to Lab 2 allowed for this decoder module to be used to take two different 4-bit inputs and serve both displays, displaying the corresponding hexadecimal value independently.</p>
+<p>A 2N3906 PNP transistor controlled both the common anode of each digit. These transistors were required because one FPGA output could not safely supply the combined current required when multiple segments were illuminated. Each segment required an individual current-limiting resistor and each PNP base required a resistor to limit current from the FPGA digit enable output.</p>
+<p>Ultimately, the display multiplexing frequency needed to be fast enough to present viisble flickering while allowing the electrical signals to settle before the next digit was visible. Given that for human eyesight, a flcikering light blends into a solid image at ~60Hz, I chose a 96Hz (multiple of the high-speed oscillator on the FPGA) as the frequency to flash my digits at.</p>
+</section>
+<section id="keypad-scanner" class="level3">
+<h3 class="anchored" data-anchor-id="keypad-scanner">Keypad Scanner</h3>
+<p>The keypad scanner was the main new module added in Lab 2. It reused an instance of the parameterized counter from Lab 1 and converted the counter state into the four required row patterns.</p>
+<p>Each FPGA row outlet drove a 2N3904 NPN transistor configured as an open-collector output. When a row signal was asserted (based on the pre-assigned scanning pattern),the transistor turned on and pulled the corresponding row to low (ground or 0V). Whereas, when the signal was not asserted, the transistor turned off and left the row floating.</p>
+<p>The open-collector circuit prevented two FPGA outputs from directly driving against each other when multiple keys were pressed. Each NPN transistor required a resistor between its base and the FPGA output to limit the base current.</p>
+<p>Each keypad column was also connected to 3.3V (from the FPGA board) through a pull-up resistor. When no key is pressed, the pull-up resistor helps maintain a defined logic high value. Pressing the key connected the selected row to its correspodning columnm which caused a column to read logic low.</p>
+</section>
+</section>
+<section id="systemverilog-design" class="level2">
+<h2 class="anchored" data-anchor-id="systemverilog-design">SystemVerilog Design</h2>
+<section id="lab-1-module-reuse-and-parameterization" class="level3">
+<h3 class="anchored" data-anchor-id="lab-1-module-reuse-and-parameterization">Lab 1 Module reuse and parameterization</h3>
+<p>Lab 2 reused both the counter.sv and sevensegment.sv modules that were tested and verified in Lab 1. The counter module contained the parameters maxcount and width, allowing multiple instances to generate different timing signals without creating separate counter modules, which was incredibly helpful for Lab 2.</p>
+<p>One counter was instantiated in the top module to generate the display-multiplexing timing signal. A second counter was instantiated inside the scanning module which was useed to generate the slower keypad-row timing signal which allowed the 4 rows to be scanned twice every second (~2Hz). As mentioned, the seven-segment decoder was also reused and, with Lab 2’s time-multiplexing sleection, allowed for the digits to be driven by different set of inputs.</p>
+</section>
+<section id="multiplexing-logic" class="level3">
+<h3 class="anchored" data-anchor-id="multiplexing-logic">Multiplexing logic</h3>
+<p>The multiplexing counter helped perform the two following functions: – It helped select which four-bit hexadecimal input was sent to the seven-segment decoder to be flashed – It enabled the PNP transistor for the matching display digit</p>
+<p>The way it worked was that during one interval, the first input was decoded and displayed on the first digit of the dual display. During the next interval, the second input was displayed on the other digit. The process was repeated at a frequency above 60Hz so that, to the humnn eye, both digits appeared continiously illuminated.</p>
+</section>
+<section id="scanning-logic" class="level3">
+<h3 class="anchored" data-anchor-id="scanning-logic">Scanning logic</h3>
+<p>The scanning module contained one parameterized counter and assign statements that used the ternary conditional operator which helped conert the counter output into the four row states to drie the leds and connections between the keypad pins and the FPGA. The module also included an active-low reset and enable input, with reset returning the scanner to its initial row. Disabling the module prevented the counter from advancing, while re-enabling it allowed scanning to continue.</p>
+</section>
+<section id="top-level-logic" class="level3">
+<h3 class="anchored" data-anchor-id="top-level-logic">Top-level logic</h3>
+<p>The top level module contained a internal oscillator, one seven-segment decoder, the multiplexing counter, the scanning module and the assign statemnets for input selection, digit enabling and the scanning passthrough.</p>
+</section>
+</section>
+</section>
+<section id="results-and-discussions" class="level1">
+<h1>Results and Discussions</h1>
+<section id="calculations" class="level2">
+<h2 class="anchored" data-anchor-id="calculations">Calculations</h2>
+<section id="resistor-selection-and-current-calculations" class="level3">
+<h3 class="anchored" data-anchor-id="resistor-selection-and-current-calculations">Resistor Selection and Current Calculations</h3>
+<p>Section 4.17 of the iCE40 UltraPlus Family Data Sheet states that an output high current of 8 mA for LVCMOS 3.3 V operation (used for Lab 2). All resistor values calculated below were to ensure that current through each FPGA pin was below 8 mA. The calculations also use the following: – Supply voltage: 3.3V – Red LED forward voltage: 2V – Green LED forward voltage: 2.2V – Seven-segment display forward voltage: 1.8V – PNP and NPN silicon base voltage drop: 0.7V</p>
+</section>
+</section>
+<section id="simulations" class="level2">
+<h2 class="anchored" data-anchor-id="simulations">Simulations</h2>
+<section id="testing-strategy" class="level3">
+<h3 class="anchored" data-anchor-id="testing-strategy">Testing strategy</h3>
+<p>Given that the counter and seven-segment decoder has already been verified in Lab 1, this lab’s simulations focused on the new scanning module and the top-leel integration.</p>
+<section id="scanning-module-testbench" class="level4">
+<h4 class="anchored" data-anchor-id="scanning-module-testbench">Scanning module testbench</h4>
+<p>The automatic scanning-module testbench reduced the counter parameters so that all behavior could be observed without simulating the complete hardware delay. The testbench demonstrated all four output transitions 0001 -&gt; 0010-&gt; 0100 -&gt; 1000. It also asserted reset and verified that the scanner returned to its initial state. The enable input was deasserted to verify that scanning stopped, then reasserted to confirm that scanning resumed.</p>
+<details>
+<summary>
+Click to view the scanning testbench code
+</summary>
+<p>`timescale 1ns/1ps</p>
+<p>module scanner_testbench(); logic reset;<br>
+logic enable; logic int_osc;</p>
+<pre><code>      logic [3:0] rows;
+        
+        // instatantiate device under test
+        scanning #(.maxcount(4), .width(4)) dut(.reset(reset), .enable(enable), .int_osc(int_osc), .rows(rows));
+        
+        // generate clock
+        always
+            begin
+                int_osc = 0; #5;
+                int_osc = 1; #5;
+            end
+            
+        initial begin
+            reset = 1; #5;
+            reset = 0; #5;
+            enable = 0; #20;
+            
+            // check if reset works
+            assert (rows == 4'b0001) $display("PASSED! Reset works as intended");
+                else $display ("FAILED! Reset did not work as intended");
+            
+            //release reset
+            reset = 1;
+            
+            // check if enable works
+            enable = 0; #5;
+            assert (rows == 4'b0001) $display("PASSED! Enable works as intended");
+                else $display ("FAILED! Enable did not work as intended");
+            
+            //release enable
+            enable = 1; #5;
+        
+            // check if LED is in state 0010 as intended
+            assert (rows == 4'b0010) $display ("PASSED! LED is in state 0010");
+                else $display ("FAILED! LED is in not state 0010");
+        
+            #10;
+            // check if LED is in state 0100 as intended
+            assert (rows == 4'b0100) $display ("PASSED! LED is in state 0100");
+                else $display ("FAILED! LED is in not state 0100");
+        
+            #10;
+            // check if LED is in state 1000 as intended
+            assert (rows == 4'b1000) $display ("PASSED! LED is in state");
+                else $display ("FAILED! LED is in not state 1000");
+                    
+            #50; $stop;
+        end</code></pre>
+<p>endmodule</p>
+</details>
+<details>
+<summary>
+Click to view the scanning testbench waveforms and transcript
+</summary>
+<p><img src="images/XXXX.jpeg" class="img-fluid"> <img src="images/XXXX.jpeg" class="img-fluid"></p>
+<p>
+Figure 2 and 3: Waveform simulation and transcript of the scanning module showing the 4 outputs cycling through and reset and enable working. In this testbench, maxcount was set to 4, and outputs were toggled as desired after every clock cycles. Transcript shows that all the tests were passed.
+</p>
+</details>
+</section>
+<section id="top-level-testbench" class="level4">
+<h4 class="anchored" data-anchor-id="top-level-testbench">Top level testbench</h4>
+<p>This automatic top-level testbench applied two different hexadecimal values through the different DIP switches and verified that the circuit alternated between them by looking at y[0] and y[1] as well as the segment outputs. In each multiplexing interval, the testbench checked that the correct digit-enable output was active and that the segments matched the decoder for the selected hexadecimal value.</p>
+<details>
+<summary>
+Click to view the top module testbench code
+</summary>
+<p>`timescale 1ns/1ps</p>
+<p>module top_testbench();</p>
+<pre><code>  logic [3:0] switch1;
+    logic [3:0] switch2;
+    logic reset;
+    logic [1:0] y;
+    logic [6:0] seg;
+    logic [3:0] led;
+    
+    // instantiate device under test
+    top #(.width(4), .maxcount(4)) dut(.switch1(switch1), .switch2(switch2), .reset(reset), .y(y), .seg(seg), .led(led));
+    
+    // apply inputs
+    initial begin
+        switch1 = 4'b0000; #5;
+        switch2 = 4'b1100; #5;
+        reset = 0; #50
+        reset = 1;
+
+        // check MUX functionality has worked and the first digit has been turned on, and is showing the right number/letter
+        assert (y == 2'b10) $display ("PASSED! Correct digit selection using multiplexer");
+            else $display ("FAILED! Incorrect digit selection using multiplexer for switch ");
+        assert (seg == 7'b0110001) $display ("PASSED! Digit 1 showed 'C' as intended");
+            else $display ("FAILED! Digit 1 did not show C as intended"); 
+                
+        // check if LED is in state 0001 as intended
+        assert (led == 4'b0001) $display ("PASSED! LED is in state 0001");
+            else $display ("FAILED! LED is not in state 0001");
+                
+        #25;
+        
+        // check if LED is in state 0010 as intended
+        assert (led == 4'b0010) $display ("PASSED! LED is in state 0010");
+        else $display ("FAILED! LED is in not state 0010");
+        
+        #10;
+        // check if LED is in state 0100 as intended
+        assert (led == 4'b0100) $display ("PASSED! LED is in state 0100");
+            else $display ("FAILED! LED is in not state 0100");
+        
+        #10;
+        // check if LED is in state 1000 as intended
+        assert (led == 4'b1000) $display ("PASSED! LED is in state");
+            else $display ("FAILED! LED is in not state 1000");
+        
+        #50;
+        // check if MUX funcationality has worked and the second digit has been turned on, and is showing the right number/letter
+        assert (y == 2'b01) $display ("PASSED! Correct digit selection using multiplexer");
+            else $display ("FAILED! Incorrect digit selection using multiplexer for switch ");
+        assert (seg == 7'b0000001) $display ("PASSED! Digit 1 showed '0' as intended");
+            else $display ("FAILED! Digit1 did not show 0 as intended");
+        
+        
+        #500; $stop;
+
+    end</code></pre>
+<p>endmodule</p>
+</details>
+<details>
+<summary>
+Click to view the top module testbench waveforms and transcript
+</summary>
+<p><img src="images/XXXX.jpeg" class="img-fluid"> <img src="images/XXXX.jpeg" class="img-fluid"></p>
+<p>
+Figure 4 and 5: Waveform simulation and transcript of the top module module showing y[0] and y[1] toggling everu cycle, revealing that both digits are being displayed with the intended hexadecimal pattern. Transcript shows that all the tests were passed.
+</p>
+</details>
+</section>
+</section>
+</section>
+<section id="hardware-testing" class="level2">
+<h2 class="anchored" data-anchor-id="hardware-testing">Hardware Testing</h2>
+</section>
+<section id="block-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="block-diagram">Block Diagram</h2>
+</section>
+<section id="schematic" class="level2">
+<h2 class="anchored" data-anchor-id="schematic">Schematic</h2>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Overall, Lab 2 expanded the modules developed in Lab 1 into a larger modular FPGA system. The verified counter and seven-segment decoder were reused but the primary work I did involed adding the multiplexing logic, keypad scanning module and PNP and NPN transistors.</p>
+<p>The resulting design used one decoder to display two independent hexadecimal values and scanned a four-row keypad using open-collector transistor outputs. Parameterized counter instances generated the different display and keypad timing signals.</p>
+<p>Overall it was a very enjoyable lab and I look forward to the integration of the keypad as an input into the dual seen-segment display in Lab 3.</p>
+<section id="time-spent-28-hours" class="level2">
+<h2 class="anchored" data-anchor-id="time-spent-28-hours">Time spent: 28 hours</h2>
+</section>
+</section>
+<section id="ai-prototyping" class="level1">
+<h1>AI-Prototyping</h1>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -215,7 +428,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/iraje02\.github\.io\/e155-microps-quarto-portfolio\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
