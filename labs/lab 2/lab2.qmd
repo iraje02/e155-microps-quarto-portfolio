@@ -59,11 +59,10 @@ The top level module contained a internal oscillator, one seven-segment decoder,
 Section 4.17 of the iCE40 UltraPlus Family Data Sheet states that an output high current of 8 mA for LVCMOS 3.3 V operation (used for Lab 2). All resistor values calculated below were to ensure that current through each FPGA pin was below 8 mA. The calculations also use the following:
 -- Supply voltage: 3.3V
 -- Red LED forward voltage: 2V
--- Green LED forward voltage: 2.2V
--- Seven-segment display forward voltage: 1.8V
+-- Seven-segment display forward voltage: 2.5V
 -- PNP and NPN silicon base voltage drop: 0.7V
 
-
+![](images/calculations.png)
 
 ## Simulations
 ### Testing strategy
@@ -222,14 +221,11 @@ endmodule
   <p>Figure 4 and 5: Waveform simulation and transcript of the top module module showing y[0] and y[1] toggling everu cycle, revealing that both digits are being displayed with the intended hexadecimal pattern. Transcript shows that all the tests were passed. </p>
 </details>
 
-## Hardware Testing
-
-
 ## Block Diagram
-
+![](images/block_diagram.png)
 
 ## Schematic
-
+![](images/schematic.png)
 
 # Conclusion
 Overall, Lab 2 expanded the modules developed in Lab 1 into a larger modular FPGA system. The verified counter and seven-segment decoder were reused but the primary work I did involed adding the multiplexing logic, keypad scanning module and PNP and NPN transistors. 
