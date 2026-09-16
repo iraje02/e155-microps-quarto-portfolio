@@ -4,21 +4,28 @@
     "href": "blog.html",
     "title": "E155 Blog",
     "section": "",
-    "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\nNo matching items"
+    "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "blog 2.html",
-    "href": "blog 2.html",
+    "objectID": "blog 4.html",
+    "href": "blog 4.html",
     "title": "E155 Blog",
     "section": "",
-    "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\nNo matching items"
+    "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
+    "objectID": "about 2.html",
+    "href": "about 2.html",
     "title": "About",
     "section": "",
     "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "E155 (MicroPs) Portfolio",
+    "section": "",
+    "text": "I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences. My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems. You can learn more about my work and experience on my LinkedIn."
   },
   {
     "objectID": "labs/lab 1/lab1.html",
@@ -84,18 +91,39 @@
     "text": "FPGA Hardware Testing Results\nAfter successful simulation of the design, the FPGA was programmed using Lattice Radiant to see if the desired LEDs and seven-segment display turned on as expected. The FPGA board is programmed with the .bin file that is generated after Design Synthesis of the top module. Pins were assigned to the DIP switch inputs s[3:0] and the outputs led[2:0] and seg[6:0] using the Lattice Radiant Pin Assignment tool.\nPrior to testing, the seven-segment display HDSP-511C was connected to a breadboard and the pins were connected to the FPGA board using a ribbon cable. The seven segment LEDs were then wired in series with a current-limiting resistor to ensure that the current draw from the FPGA board was less than 200mA and that each diode was getting a current ~8mA. Given that it typically has a forward voltage drop of 2V, and the FPGA board provides 3.3V, the resistor value was calculated as R = (Vdd - Vf)/If = (3.3V - 2V)/0.008A = 162.5Ω. So a standard 160Ω resistor was used."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "E155 (MicroPs) Portfolio",
+    "objectID": "labs/lab 2/lab2.html",
+    "href": "labs/lab 2/lab2.html",
+    "title": "Lab 2: Multiplexed 7-Segment Display and Keypad Row Scanning",
     "section": "",
-    "text": "I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences. My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems. You can learn more about my work and experience on my LinkedIn."
+    "text": "In this lab, I continued the modular FPGA design in Lab 1 by using the combinational seven-segment decoder module which allowed one hexadecimal value to be displayed and the parameterized counter module controlled. This allowed for this lab to focus on integrating a time-multiplexed dual display and a matrix-keypad scanner.\nThe dual display helped show two independent hexadecimal values using one seven-segment decoder using one shared set of cathode signals. A counter rapidly alternated between the two display digits so that both appeared continuously illuminated.\nThe keypad scanner sequentially activated four rows with each signal toggling at 2 Hz. Additionally, NPN transistors were used to convert the FPGA row signals into open-collector outputs, while pull-up resistors helped define column logic levels. Red and green LEDs were used to indicate the active row and detected keypad column."
   },
   {
-    "objectID": "about 2.html",
-    "href": "about 2.html",
+    "objectID": "labs/lab 2/lab2.html#multiplexed-seven-segment-display",
+    "href": "labs/lab 2/lab2.html#multiplexed-seven-segment-display",
+    "title": "Lab 2: Multiplexed 7-Segment Display and Keypad Row Scanning",
+    "section": "Multiplexed Seven-Segment Display",
+    "text": "Multiplexed Seven-Segment Display\nThe two common-anode display used one set of seven segment cathode signals that were conmnected in parallel to both digits of the display using the [datasheet] ((https://www.broadcom.com/products/leds-and-displays/7-segment/through-hole/hdsp-5721). The SystemVerilog code implemented a multiplexing counter output which selected one of the two four-bit switch inputs and passed it into the seven-segment decoder. The same counter output enabled the corresponding display digit.\nThe seven-segment module from Lab 1 was reused without any modifications. The decoder contained combinational logic that translated a 4-bit hexadecimal input into an active-low seven-segment pattern. The multiplexer selection logic added to Lab 2 allowed for this decoder module to be used to take two different 4-bit inputs and serve both displays, displaying the corresponding hexadecimal value independently.\nA 2N3906 PNP transistor controlled both the common anode of each digit. These transistors were required because one FPGA output could not safely supply the combined current required when multiple segments were illuminated. Each segment required an individual current-limiting resistor and each PNP base required a resistor to limit current from the FPGA digit enable output.\nUltimately, the display multiplexing frequency needed to be fast enough to present viisble flickering while allowing the electrical signals to settle before the next digit was visible. Given that for human eyesight, a flcikering light blends into a solid image at ~60Hz, I chose a 96Hz (multiple of the high-speed oscillator on the FPGA) as the frequency to flash my digits at."
+  },
+  {
+    "objectID": "labs/lab 2/lab2.html#keypad-scanner",
+    "href": "labs/lab 2/lab2.html#keypad-scanner",
+    "title": "Lab 2: Multiplexed 7-Segment Display and Keypad Row Scanning",
+    "section": "Keypad Scanner",
+    "text": "Keypad Scanner\nThe keypad scanner was the main new module added in Lab 2. It reused an instance of the parameterized counter from Lab 1 and converted the counter state into the four required row patterns.\nEach FPGA row outlet drove a 2N3904 NPN transistor configured as an open-collector output. When a row signal was asserted (based on the pre-assigned scanning pattern),the transistor turned on and pulled the corresponding row to low (ground or 0V). Whereas, when the signal was not asserted, the transistor turned off and left the row floating.\nThe open-collector circuit prevented two FPGA outputs from directly driving against each other when multiple keys were pressed. Each NPN transistor required a resistor between its base and the FPGA output to limit the base current.\nEach keypad column was also connected to 3.3V (from the FPGA board) through a pull-up resistor. When no key is pressed, the pull-up resistor helps maintain a defined logic high value. Pressing the key connected the selected row to its correspodning columnm which caused a column to read logic low."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
     "title": "About",
     "section": "",
     "text": "About this site"
+  },
+  {
+    "objectID": "blog 2.html",
+    "href": "blog 2.html",
+    "title": "E155 Blog",
+    "section": "",
+    "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index 2.html",
