@@ -13,7 +13,7 @@ The keypad scanner sequentially activated four rows with each signal toggling at
 # Design and Testing Methodology
 ## Hardware Design
 ### Multiplexed Seven-Segment Display
-The two common-anode display used one set of seven segment cathode signals that were conmnected in parallel to both digits of the display using the [datasheet] ((https://www.broadcom.com/products/leds-and-displays/7-segment/through-hole/hdsp-5721). The SystemVerilog code implemented a multiplexing counter output which selected one of the two four-bit switch inputs and passed it into the seven-segment decoder. The same counter output enabled the corresponding display digit. 
+The two common-anode display used one set of seven segment cathode signals that were conmnected in parallel to both digits of the display using the [datasheet] (https://www.broadcom.com/products/leds-and-displays/7-segment/through-hole/hdsp-5721). The SystemVerilog code implemented a multiplexing counter output which selected one of the two four-bit switch inputs and passed it into the seven-segment decoder. The same counter output enabled the corresponding display digit. 
 
 The seven-segment module from Lab 1 was reused without any modifications. The decoder contained combinational logic that translated a 4-bit hexadecimal input into an active-low seven-segment pattern. The multiplexer selection logic added to Lab 2 allowed for this decoder module to be used to take two different 4-bit inputs and serve both displays, displaying the corresponding hexadecimal value independently. 
 
