@@ -162,7 +162,6 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#testing-strategy" id="toc-testing-strategy" class="nav-link" data-scroll-target="#testing-strategy">Testing strategy</a></li>
   </ul></li>
-  <li><a href="#hardware-testing" id="toc-hardware-testing" class="nav-link" data-scroll-target="#hardware-testing">Hardware Testing</a></li>
   <li><a href="#block-diagram" id="toc-block-diagram" class="nav-link" data-scroll-target="#block-diagram">Block Diagram</a></li>
   <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
   </ul></li>
@@ -265,7 +264,8 @@ Figure 1: Image of 4x4 Matrix Keypad Pinout and Circuit Layout. Diagram illustra
 <h2 class="anchored" data-anchor-id="calculations">Calculations</h2>
 <section id="resistor-selection-and-current-calculations" class="level3">
 <h3 class="anchored" data-anchor-id="resistor-selection-and-current-calculations">Resistor Selection and Current Calculations</h3>
-<p>Section 4.17 of the iCE40 UltraPlus Family Data Sheet states that an output high current of 8 mA for LVCMOS 3.3 V operation (used for Lab 2). All resistor values calculated below were to ensure that current through each FPGA pin was below 8 mA. The calculations also use the following: – Supply voltage: 3.3V – Red LED forward voltage: 2V – Green LED forward voltage: 2.2V – Seven-segment display forward voltage: 1.8V – PNP and NPN silicon base voltage drop: 0.7V</p>
+<p>Section 4.17 of the iCE40 UltraPlus Family Data Sheet states that an output high current of 8 mA for LVCMOS 3.3 V operation (used for Lab 2). All resistor values calculated below were to ensure that current through each FPGA pin was below 8 mA. The calculations also use the following: – Supply voltage: 3.3V – Red LED forward voltage: 2V – Seven-segment display forward voltage: 2.5V – PNP and NPN silicon base voltage drop: 0.7V</p>
+<p><img src="images/calculations.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="simulations" class="level2">
@@ -420,14 +420,13 @@ Figure 4 and 5: Waveform simulation and transcript of the top module module show
 </section>
 </section>
 </section>
-<section id="hardware-testing" class="level2">
-<h2 class="anchored" data-anchor-id="hardware-testing">Hardware Testing</h2>
-</section>
 <section id="block-diagram" class="level2">
 <h2 class="anchored" data-anchor-id="block-diagram">Block Diagram</h2>
+<p><img src="images/block_diagram.png" class="img-fluid"></p>
 </section>
 <section id="schematic" class="level2">
 <h2 class="anchored" data-anchor-id="schematic">Schematic</h2>
+<p><img src="images/schematic.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="conclusion" class="level1">
