@@ -49,6 +49,187 @@ The scanning module contained one parameterized counter and assign statements th
 ### Top-level logic
 The top level module contained a internal oscillator, one seven-segment decoder, the multiplexing counter, the scanning module and the assign statemnets for input selection, digit enabling and the scanning passthrough. 
 
-#Results and Discussion
+# Results and Discussions
+## Calculations
+### Resistor Selection and Current Calculations
+Section 4.17 of the iCE40 UltraPlus Family Data Sheet states that an output high current of 8 mA for LVCMOS 3.3 V operation (used for Lab 2). All resistor values calculated below were to ensure that current through each FPGA pin was below 8 mA. The calculations also use the following:
+-- Supply voltage: 3.3V
+-- Red LED forward voltage: 2V
+-- Green LED forward voltage: 2.2V
+-- Seven-segment display forward voltage: 1.8V
+-- PNP and NPN silicon base voltage drop: 0.7V
 
 
+## Simulations
+### Testing strategy
+Given that the counter and seven-segment decoder has already been verified in Lab 1, this lab's simulations focused on the new scanning module and the top-leel integration.
+
+#### Scanning module testbench
+The automatic scanning-module testbench reduced the counter parameters so that all behavior could be observed without simulating the complete hardware delay. The testbench demonstrated all four output transitions 0001 -> 0010-> 0100 -> 1000. It also asserted reset and verified that the scanner returned to its initial state. The enable input was deasserted to verify that scanning stopped, then reasserted to confirm that scanning resumed.
+
+<details>
+  <summary>Click to view the scanning testbench code</summary>
+
+`timescale 1ns/1ps
+
+module scanner_testbench();
+			logic reset;			
+			logic enable;
+			logic int_osc;
+
+			logic [3:0] rows;
+			
+			// instatantiate device under test
+			scanning #(.maxcount(4), .width(4)) dut(.reset(reset), .enable(enable), .int_osc(int_osc), .rows(rows));
+			
+			// generate clock
+			always
+				begin
+					int_osc = 0; #5;
+					int_osc = 1; #5;
+				end
+				
+			initial begin
+				reset = 1; #5;
+				reset = 0; #5;
+				enable = 0; #20;
+				
+				// check if reset works
+				assert (rows == 4'b0001) $display("PASSED! Reset works as intended");
+					else $display ("FAILED! Reset did not work as intended");
+				
+				//release reset
+				reset = 1;
+				
+				// check if enable works
+				enable = 0; #5;
+				assert (rows == 4'b0001) $display("PASSED! Enable works as intended");
+					else $display ("FAILED! Enable did not work as intended");
+				
+				//release enable
+				enable = 1; #5;
+			
+				// check if LED is in state 0010 as intended
+				assert (rows == 4'b0010) $display ("PASSED! LED is in state 0010");
+					else $display ("FAILED! LED is in not state 0010");
+			
+				#10;
+				// check if LED is in state 0100 as intended
+				assert (rows == 4'b0100) $display ("PASSED! LED is in state 0100");
+					else $display ("FAILED! LED is in not state 0100");
+			
+				#10;
+				// check if LED is in state 1000 as intended
+				assert (rows == 4'b1000) $display ("PASSED! LED is in state");
+					else $display ("FAILED! LED is in not state 1000");
+						
+				#50; $stop;
+			end
+endmodule
+
+</details>
+
+<details>
+  <summary>Click to view the scanning testbench waveforms and transcript</summary>
+
+![](images/XXXX.jpeg)
+![](images/XXXX.jpeg)
+
+
+  <p>Figure 2 and 3: Waveform simulation and transcript of the scanning module showing the 4 outputs cycling through and reset and enable working. In this testbench, maxcount was set to 4, and outputs were toggled as desired after every clock cycles. Transcript shows that all the tests were passed. </p>
+</details>
+
+#### Top level testbench
+This automatic top-level testbench applied two different hexadecimal values through the different DIP switches and verified that the circuit alternated between them by looking at y[0] and y[1] as well as the segment outputs. In each multiplexing interval, the testbench checked that the correct digit-enable output was active and that the segments matched the decoder for the selected hexadecimal value.
+
+<details>
+  <summary>Click to view the top module testbench code</summary>
+
+`timescale 1ns/1ps
+
+module top_testbench();
+
+		logic [3:0] switch1;
+		logic [3:0] switch2;
+		logic reset;
+		logic [1:0] y;
+		logic [6:0] seg;
+		logic [3:0] led;
+		
+		// instantiate device under test
+		top #(.width(4), .maxcount(4)) dut(.switch1(switch1), .switch2(switch2), .reset(reset), .y(y), .seg(seg), .led(led));
+		
+		// apply inputs
+		initial begin
+			switch1 = 4'b0000; #5;
+			switch2 = 4'b1100; #5;
+			reset = 0; #50
+			reset = 1;
+	
+			// check MUX functionality has worked and the first digit has been turned on, and is showing the right number/letter
+			assert (y == 2'b10) $display ("PASSED! Correct digit selection using multiplexer");
+				else $display ("FAILED! Incorrect digit selection using multiplexer for switch ");
+			assert (seg == 7'b0110001) $display ("PASSED! Digit 1 showed 'C' as intended");
+				else $display ("FAILED! Digit 1 did not show C as intended"); 
+					
+			// check if LED is in state 0001 as intended
+			assert (led == 4'b0001) $display ("PASSED! LED is in state 0001");
+				else $display ("FAILED! LED is not in state 0001");
+					
+			#25;
+			
+			// check if LED is in state 0010 as intended
+			assert (led == 4'b0010) $display ("PASSED! LED is in state 0010");
+			else $display ("FAILED! LED is in not state 0010");
+			
+			#10;
+			// check if LED is in state 0100 as intended
+			assert (led == 4'b0100) $display ("PASSED! LED is in state 0100");
+				else $display ("FAILED! LED is in not state 0100");
+			
+			#10;
+			// check if LED is in state 1000 as intended
+			assert (led == 4'b1000) $display ("PASSED! LED is in state");
+				else $display ("FAILED! LED is in not state 1000");
+			
+			#50;
+			// check if MUX funcationality has worked and the second digit has been turned on, and is showing the right number/letter
+			assert (y == 2'b01) $display ("PASSED! Correct digit selection using multiplexer");
+				else $display ("FAILED! Incorrect digit selection using multiplexer for switch ");
+			assert (seg == 7'b0000001) $display ("PASSED! Digit 1 showed '0' as intended");
+				else $display ("FAILED! Digit1 did not show 0 as intended");
+			
+			
+			#500; $stop;
+
+		end
+endmodule
+
+</details>
+
+<details>
+  <summary>Click to view the top module testbench waveforms and transcript</summary>
+
+![](images/XXXX.jpeg)
+![](images/XXXX.jpeg)
+
+
+  <p>Figure 4 and 5: Waveform simulation and transcript of the top module module showing y[0] and y[1] toggling everu cycle, revealing that both digits are being displayed with the intended hexadecimal pattern. Transcript shows that all the tests were passed. </p>
+</details>
+
+## Hardware Testing
+
+## Block Diagram
+
+## Schematic
+
+# Conclusion
+Overall, Lab 2 expanded the modules developed in Lab 1 into a larger modular FPGA system. The verified counter and seven-segment decoder were reused but the primary work I did involed adding the multiplexing logic, keypad scanning module and PNP and NPN transistors. 
+
+The resulting design used one decoder to display two independent hexadecimal values and scanned a four-row keypad using open-collector transistor outputs. Parameterized counter instances generated the different display and keypad timing signals.
+
+Overall it was a very enjoyable lab and I look forward to the integration of the keypad as an input into the dual seen-segment display in Lab 3. 
+
+## Time spent: 28 hours
+
+# AI-Prototyping
