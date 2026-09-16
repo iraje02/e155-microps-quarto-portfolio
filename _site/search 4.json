@@ -4,21 +4,14 @@
     "href": "blog.html",
     "title": "E155 Blog",
     "section": "",
-    "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\nNo matching items"
+    "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "blog 2.html",
-    "href": "blog 2.html",
-    "title": "E155 Blog",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "E155 (MicroPs) Portfolio",
     "section": "",
-    "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\n\n\n\n\n\n\n\nHello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
+    "text": "I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences. My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems. You can learn more about my work and experience on my LinkedIn."
   },
   {
     "objectID": "labs/lab 1/lab1.html",
@@ -53,7 +46,7 @@
     "href": "labs/lab 1/lab1.html#github-repository",
     "title": "Lab 1: FPGA and MCU Setup and Testing",
     "section": "GitHub Repository",
-    "text": "GitHub Repository\nThe code for this lab is available on my GitHub repository: Link to Github"
+    "text": "GitHub Repository\nThe code for this lab is available on my GitHub repository:"
   },
   {
     "objectID": "labs/lab 1/lab1.html#schematic-diagram",
@@ -84,24 +77,10 @@
     "text": "FPGA Hardware Testing Results\nAfter successful simulation of the design, the FPGA was programmed using Lattice Radiant to see if the desired LEDs and seven-segment display turned on as expected. The FPGA board is programmed with the .bin file that is generated after Design Synthesis of the top module. Pins were assigned to the DIP switch inputs s[3:0] and the outputs led[2:0] and seg[6:0] using the Lattice Radiant Pin Assignment tool.\nPrior to testing, the seven-segment display HDSP-511C was connected to a breadboard and the pins were connected to the FPGA board using a ribbon cable. The seven segment LEDs were then wired in series with a current-limiting resistor to ensure that the current draw from the FPGA board was less than 200mA and that each diode was getting a current ~8mA. Given that it typically has a forward voltage drop of 2V, and the FPGA board provides 3.3V, the resistor value was calculated as R = (Vdd - Vf)/If = (3.3V - 2V)/0.008A = 162.5Ω. So a standard 160Ω resistor was used."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "E155 (MicroPs) Portfolio",
-    "section": "",
-    "text": "I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences. My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems. You can learn more about my work and experience on my LinkedIn."
-  },
-  {
-    "objectID": "about 2.html",
-    "href": "about 2.html",
+    "objectID": "about.html",
+    "href": "about.html",
     "title": "About",
     "section": "",
     "text": "About this site"
-  },
-  {
-    "objectID": "index 2.html",
-    "href": "index 2.html",
-    "title": "E155 (MicroPs) Portfolio",
-    "section": "",
-    "text": "I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences. My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems. You can learn more about my work and experience on my LinkedIn."
   }
 ]

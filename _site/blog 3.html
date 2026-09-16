@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Ishita Raje">
-<meta name="dcterms.date" content="2026-09-09">
 
-<title>Lab 1: FPGA and MCU Setup and Testing – E155 (MicroPs) Portfolio</title>
+<title>E155 Blog – E155 (MicroPs) Portfolio</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -31,23 +29,25 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-445b8638c3d06994fee0907d791121c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-445b8638c3d06994fee0907d791121c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,9 +75,67 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
 
-<link rel="stylesheet" href="../../styles.css">
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -87,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">E155 (MicroPs) Portfolio</span>
     </a>
   </div>
@@ -98,11 +156,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="./blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -111,11 +169,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-labs">    
         <li>
-    <a class="dropdown-item" href="../../labs/lab 1/lab1.html">
+    <a class="dropdown-item" href="./labs/lab 1/lab1.html">
  <span class="dropdown-text">Lab 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab 2/lab2.html">
+    <a class="dropdown-item" href="./labs/lab 2/lab2.html">
  <span class="dropdown-text">Lab 2</span></a>
   </li>  
     </ul>
@@ -131,64 +189,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a>
-  <ul class="collapse">
-  <li><a href="#development-board-assembly" id="toc-development-board-assembly" class="nav-link" data-scroll-target="#development-board-assembly">Development Board Assembly</a></li>
-  <li><a href="#fpga-design-and-verilog-structure" id="toc-fpga-design-and-verilog-structure" class="nav-link" data-scroll-target="#fpga-design-and-verilog-structure">FPGA Design and Verilog Structure</a>
-  <ul class="collapse">
-  <li><a href="#top-level-module" id="toc-top-level-module" class="nav-link" data-scroll-target="#top-level-module">Top-Level Module</a></li>
-  <li><a href="#counter-module" id="toc-counter-module" class="nav-link" data-scroll-target="#counter-module">Counter Module</a></li>
-  <li><a href="#seven-segment-display-module" id="toc-seven-segment-display-module" class="nav-link" data-scroll-target="#seven-segment-display-module">Seven-Segment Display Module</a></li>
-  </ul></li>
-  <li><a href="#use-of-testbenches" id="toc-use-of-testbenches" class="nav-link" data-scroll-target="#use-of-testbenches">Use of Testbenches</a></li>
-  </ul></li>
-  <li><a href="#technical-documentation" id="toc-technical-documentation" class="nav-link" data-scroll-target="#technical-documentation">Technical Documentation</a>
-  <ul class="collapse">
-  <li><a href="#github-repository" id="toc-github-repository" class="nav-link" data-scroll-target="#github-repository">GitHub Repository</a></li>
-  <li><a href="#schematic-diagram" id="toc-schematic-diagram" class="nav-link" data-scroll-target="#schematic-diagram">Schematic Diagram</a></li>
-  <li><a href="#block-diagram" id="toc-block-diagram" class="nav-link" data-scroll-target="#block-diagram">Block Diagram</a></li>
-  </ul></li>
-  <li><a href="#results-and-discussion" id="toc-results-and-discussion" class="nav-link" data-scroll-target="#results-and-discussion">Results and Discussion</a>
-  <ul class="collapse">
-  <li><a href="#testbench-simulation-results" id="toc-testbench-simulation-results" class="nav-link" data-scroll-target="#testbench-simulation-results">Testbench Simulation Results</a></li>
-  <li><a href="#fpga-hardware-testing-results" id="toc-fpga-hardware-testing-results" class="nav-link" data-scroll-target="#fpga-hardware-testing-results">FPGA Hardware Testing Results</a></li>
-  </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  <li><a href="#ai-prototype-summary" id="toc-ai-prototype-summary" class="nav-link" data-scroll-target="#ai-prototype-summary">AI Prototype Summary</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 1: FPGA and MCU Setup and Testing</h1>
+<h1 class="title">E155 Blog</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Ishita Raje </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">September 9, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -198,124 +214,65 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>In this lab, I set up the FPGA (Field-Programmable Gate Array) and MCU (Microcontroller Unit) and tested their functionality. The goal was to design a SystemVerilog-based FPGA system that used four DIP switches as inputs to control three LEDs and a seven-segment display. Combinational logic controlled two of the LEDs according to the specified logic operations and decoded the four-bit switch input for display as a hexadecimal digit on a common-anode seven-segment display. Sequential counter logic, driven by the FPGA’s internal high-speed oscillator (HSOSC), caused the third LED to blink at approximately 2.4 Hz. I simulated the design using QuestaSim before synthesizing and programming it using Lattice Radiant. Finally, I tested the design on the FPGA board to confirm that it functioned as expected.</p>
-</section>
-<section id="design-and-testing-methodology" class="level1">
-<h1>Design and Testing Methodology</h1>
-<section id="development-board-assembly" class="level2">
-<h2 class="anchored" data-anchor-id="development-board-assembly">Development Board Assembly</h2>
-<p>The provided board 155 board was an empty PCB that was to be popularted with both Through Hpole Technology (THT) and Surface Mount Technology (SMT) components to form the fully assembled board (Figure 1). The various components that I had to solder were the resistors, capacitors, voltage regulator, DIP switches, push-button switches, jumpers, and LEDs. The board also contains the Nucleo-L432KC microcontroller unit (MCU) and the UPduino v3.1 FPGA which were the main components of the board.</p>
-<p>Initial testing was done using to ensure that they were workinga nd able to communicate with one another. Lattice Radiant was used to program the FPGA to simply toggle a onboard LED at 1Hz using the HSOSC. The MCU was programmed using Segger Embeeded Studio to blink three other LEDs. After confirming that both the FPGA and MCU were working, I then moved on to designing the SystemVerilog modules.</p>
-<p><img src="images/IMG_7975.jpeg" class="img-fluid"> Figure 1: My assembled board (left) with the MPU and FPGA, which are powered by the attached microUSB cable or an on-board power supply. Annotated image (right) showing the location ofvarious components of the board.</p>
-</section>
-<section id="fpga-design-and-verilog-structure" class="level2">
-<h2 class="anchored" data-anchor-id="fpga-design-and-verilog-structure">FPGA Design and Verilog Structure</h2>
-<section id="top-level-module" class="level3">
-<h3 class="anchored" data-anchor-id="top-level-module">Top-Level Module</h3>
-<p>The SystemVerilog was split into a top-level module and two submodules: one was for the combinational seven-segment display decoder and the other for the sequential counter which controlled led[2] and caused it to blink at 2.4Hz. The overall top module then instantiated both the submodules and the on-board high-speed oscillator (HSOSC) from the iCE40 UltraPlus primitive library. The top module also included the switch-to-led logic to control led[0] and led[1] based on the DIP switch inputs.</p>
-</section>
-<section id="counter-module" class="level3">
-<h3 class="anchored" data-anchor-id="counter-module">Counter Module</h3>
-<p>Calculations were done to determine the expected number that the counter module would have to go uptil to acheive the desired flashing frequency of 2.4Hz (Period = 1/frequency = 1/2.4Hz = 0.4167s). This period needs account for the rise and fall of the LED, the counter must count for half of this period (0.4167s/2 = 0.2083s). Given the HSOSC frquency of 48MHz, the maxcount was calculated to be 48,000,000 * 0.2083s = 10,000,000. Hence, the counter was designed using the Verilog parameters with maxcount of 10,000,000 and width of 24 bits. After reaching this number, module then resets to zero and toggles led[2], achieving the frequency of 2.4Hz.</p>
-</section>
-<section id="seven-segment-display-module" class="level3">
-<h3 class="anchored" data-anchor-id="seven-segment-display-module">Seven-Segment Display Module</h3>
-<p>The seven-segment display module was designed to decode the four-bit switch input s[3:0] and display the corresponding hexadecimal digit on the common-anode seven-segment display. More specifically, the design of the segment had to account for all numebr 1-9 and letters A-F having a unique display (for exampkle D and 0, thus a lower case d was used). For my module, seg[6] was the most significant bit and responded to A while seg[0] was the least significant bit and responded to G.</p>
-<p>The common-anode display meant that the segments were turned on by driving them low, and off by driving them high. The module was designed using case statements with a default case to turn off all segments off when no input or reset is applied.</p>
-</section>
-</section>
-<section id="use-of-testbenches" class="level2">
-<h2 class="anchored" data-anchor-id="use-of-testbenches">Use of Testbenches</h2>
-<p>Each module was tested individually in QuestaSim using testbenches before hardware testing. These simulated the DIP switch inputs and verified that the outputs (LEDs and seven-segment display) responded correctly according to the design specifications. After testing the submodules, the top-level module was also tested using a testbench to verify that the entire design functioned as expected.</p>
-</section>
-</section>
-<section id="technical-documentation" class="level1">
-<h1>Technical Documentation</h1>
-<section id="github-repository" class="level2">
-<h2 class="anchored" data-anchor-id="github-repository">GitHub Repository</h2>
-<p>The code for this lab is available on my GitHub repository: <a href="https://github.com/iraje02/E155_MicroPs.git">Link to Github</a></p>
-</section>
-<section id="schematic-diagram" class="level2">
-<h2 class="anchored" data-anchor-id="schematic-diagram">Schematic Diagram</h2>
-<p><img src="images/schematic.jpeg" class="img-fluid"> Figure 2: Schematic of FPGA design</p>
-</section>
-<section id="block-diagram" class="level2">
-<h2 class="anchored" data-anchor-id="block-diagram">Block Diagram</h2>
-<p><img src="images/block_diagram.jpeg" class="img-fluid"> Figure 3: Block diagram of FPGA design</p>
-</section>
-</section>
-<section id="results-and-discussion" class="level1">
-<h1>Results and Discussion</h1>
-<section id="testbench-simulation-results" class="level2">
-<h2 class="anchored" data-anchor-id="testbench-simulation-results">Testbench Simulation Results</h2>
-<p>The counter module was tested using a automatic testbench by simulating the HSOSC clock and verifying that led[2] blinked at the expected frequency of 2.4Hz. The use of width and maxcount Verilog parameters allowed for easy adjustment of the counter and led[2]’s behavior for purposes of testing and waveform simulation. In addition to this, functionality of the reset, enable and max count features were also verified using the testbench.</p>
-<details>
-<summary>
-Click to view the counter testbench
-</summary>
-<p><img src="images/counter testbench.jpeg" class="img-fluid"></p>
-<p>
-Figure 4: Waveform simulation of the counter module showing the reset and enable working. In this testbench, maxcount was set to 3, and led[2] toggled as desired after every 3 clock cycles.
-</p>
-</details>
-<p>The seven-segment display module was also tested using an automatic testbench that covered all 16 possible combinations of four DIP switch inputs. The testbench verified that each produced the correct hexadecimal digit.</p>
-<details>
-<summary>
-Click to view the seven-segment testbench
-</summary>
-<p><img src="images/seven segment testbench.jpeg" class="img-fluid"></p>
-<p>
-Figure 5: Waveform simulation of the seven-segment display module showing the correct hexadecimal digit displayed for each DIP switch input combination ranging from 4’b0000 to 4’b1111.
-</p>
-</details>
-<p>Finally, the top module is also tested to check whether the connections to all submodules is working as desired. the iCE40 UltraPlus primitive library was also tested to check whether the HSOSC clock is working.</p>
-<details>
-<summary>
-Click to view the top testbench
-</summary>
-<p><img src="images/top testbench.jpeg" class="img-fluid"></p>
-<p>
-Figure 6: Waveform simulation of the top module showing the correct behavior of the entire design, including toggling of led[2], connection between submodules given that seven-segment and internal HSOSC clock are working as desired, and also correct functioning of led[0] and led[1] based on the DIP switch inputs.
-</p>
-</details>
-</section>
-<section id="fpga-hardware-testing-results" class="level2">
-<h2 class="anchored" data-anchor-id="fpga-hardware-testing-results">FPGA Hardware Testing Results</h2>
-<p>After successful simulation of the design, the FPGA was programmed using Lattice Radiant to see if the desired LEDs and seven-segment display turned on as expected. The FPGA board is programmed with the .bin file that is generated after Design Synthesis of the top module. Pins were assigned to the DIP switch inputs s[3:0] and the outputs led[2:0] and seg[6:0] using the Lattice Radiant Pin Assignment tool.</p>
-<p>Prior to testing, the seven-segment display HDSP-511C was connected to a breadboard and the pins were connected to the FPGA board using a ribbon cable. The seven segment LEDs were then wired in series with a current-limiting resistor to ensure that the current draw from the FPGA board was less than 200mA and that each diode was getting a current ~8mA. Given that it typically has a forward voltage drop of 2V, and the FPGA board provides 3.3V, the resistor value was calculated as R = (Vdd - Vf)/If = (3.3V - 2V)/0.008A = 162.5Ω. So a standard 160Ω resistor was used.</p>
-</section>
-</section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
-<p>In conclusion, the FPGA and MCU were successfully set up and tested and the SystemVerilog design was implemented and tested through experimental and simulation methods. The design and modules made the SystemVerilog code more modular while the use of testbenches gave me and easy way to confirm code functionality before testing hardware.</p>
-</section>
-<section id="ai-prototype-summary" class="level1">
-<h1>AI Prototype Summary</h1>
-<p>For this AI prototype section, I prompted Claude’s Sonnet 5 model using the prompt “Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg.” as instructed. The model generated the following code:</p>
-<details>
-<summary>
-Click to view the SystemVerilog code generated by Claude Sonnet 5
-</summary>
-<p>//============================================================================== // blink_led.sv // Blinks an LED at 2 Hz using the Lattice iCE40 UP5K’s internal // high-speed oscillator (SB_HFOSC) — no external clock required. //==============================================================================</p>
-<p>module blink_led #( parameter real CLK_FREQ_HZ = 12_000_000.0, // HFOSC output freq (see CLKHF_DIV below) parameter real BLINK_FREQ_HZ = 2.0 // desired LED toggle rate ) ( output logic led_o );</p>
-<p>// HFOSC divider setting -&gt; output frequency: // “0b00” = 48 MHz “0b01” = 24 MHz “0b10” = 12 MHz “0b11” = 6 MHz localparam string CLKHF_DIV = “0b10”; // 12 MHz, matches CLK_FREQ_HZ above</p>
-<p>// Number of clk cycles per half-period (toggle event) localparam int unsigned HALF_PERIOD_COUNT = int’(CLK_FREQ_HZ / (2.0 * BLINK_FREQ_HZ));</p>
-<p>// Width sized automatically from the computed count localparam int unsigned CNT_WIDTH = $clog2(HALF_PERIOD_COUNT);</p>
-<p>logic clk; logic [CNT_WIDTH-1:0] count; logic led_reg;</p>
-<p>//——————————————————————– // Internal high-speed oscillator primitive //——————————————————————– SB_HFOSC #( .CLKHF_DIV(CLKHF_DIV) ) u_hfosc ( .CLKHFPU (1’b1), // power up oscillator .CLKHFEN (1’b1), // enable clock output .CLKHF (clk) );</p>
-<p>//——————————————————————– // Free-running divider + toggle flip-flop // iCE40 SRAM cells power up with a known state, so initial values // below set the configuration-time reset state (no external reset). //——————————————————————– always_ff @(posedge clk) begin if (count == HALF_PERIOD_COUNT[CNT_WIDTH-1:0] - 1’b1) begin count &lt;= ’0; led_reg &lt;= ~led_reg; end else begin count &lt;= count + 1’b1; end end</p>
-<p>initial begin count = ’0; led_reg = 1’b0; end</p>
-<p>assign led_o = led_reg;</p>
-endmodule
-</details>
-<p>While I was surprised that the AI chatbot was able to understand the task of using the onboard high-speed oscillator to blink the LED at 2Hz, it chose to use the divider setting of 12MHz instead of the 48MHz that I had used in my design. It als had a lot more local paramters and a more complex design than I had used. Overall, I was impressed with the AI’s ability to generate a working SystemVerilog code that met the requirements of the prompt and its well commented and explained code.</p>
 
 
-</section>
 
-</main> <!-- /main -->
+
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="cmVmbGVjdGlvbiUyQ2xhYnJlcG9ydA==" data-listing-date-sort="1788937200000" data-listing-file-modified-sort="1789096169275" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="thumbnail"><a href="./posts/first-post 2.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/first-post 2.html" class="no-external">Hello Quarto</a>
+</h3>
+<div class="delink listing-description"><a href="./posts/first-post 2.html" class="no-external">
+<p>Welcome to my Quarto portfolio</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/first-post 2.html" class="no-external">
+<div class="listing-date">
+Sep 9, 2026
+</div>
+<div class="listing-author">
+Ishita Raje
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="cmVmbGVjdGlvbiUyQ2xhYnJlcG9ydA==" data-listing-date-sort="1788937200000" data-listing-file-modified-sort="1789096169275" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="thumbnail"><a href="./posts/first-post.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/first-post.html" class="no-external">Hello Quarto</a>
+</h3>
+<div class="delink listing-description"><a href="./posts/first-post.html" class="no-external">
+<p>Welcome to my Quarto portfolio</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/first-post.html" class="no-external">
+<div class="listing-date">
+Sep 9, 2026
+</div>
+<div class="listing-author">
+Ishita Raje
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
