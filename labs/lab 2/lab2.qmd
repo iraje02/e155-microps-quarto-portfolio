@@ -34,3 +34,21 @@ Each keypad column was also connected to 3.3V (from the FPGA board) through a pu
 ### Lab 1 Module reuse and parameterization
 Lab 2 reused both the counter.sv and sevensegment.sv modules that were tested and verified in Lab 1. The counter module contained the parameters maxcount and width, allowing multiple instances to generate different timing signals without creating separate counter modules, which was incredibly helpful for Lab 2.
 
+One counter was instantiated in the top module to generate the display-multiplexing timing signal. A second counter was instantiated inside the scanning module which was useed to generate the slower keypad-row timing signal which allowed the 4 rows to be scanned twice every second (~2Hz). As mentioned, the seven-segment decoder was also reused and, with Lab 2's time-multiplexing sleection, allowed for the digits to be driven by different set of inputs. 
+
+### Multiplexing logic
+The multiplexing counter helped perform the two following functions:
+-- It helped select which four-bit hexadecimal input was sent to the seven-segment decoder to be flashed
+-- It enabled the PNP transistor for the matching display digit
+
+The way it worked was that during one interval, the first input was decoded and displayed on the first digit of the dual display. During the next interval, the second input was displayed on the other digit. The process was repeated at a frequency above 60Hz so that, to the humnn eye, both digits appeared continiously illuminated. 
+
+### Scanning logic
+The scanning module contained one parameterized counter and assign statements that used the ternary conditional operator which helped conert the counter output into the four row states to drie the leds and connections between the keypad pins and the FPGA. The module also included an active-low reset and enable input, with reset returning the scanner to its initial row. Disabling the module prevented the counter from advancing, while re-enabling it allowed scanning to continue.
+
+### Top-level logic
+The top level module contained a internal oscillator, one seven-segment decoder, the multiplexing counter, the scanning module and the assign statemnets for input selection, digit enabling and the scanning passthrough. 
+
+#Results and Discussion
+
+
