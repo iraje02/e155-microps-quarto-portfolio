@@ -1,0 +1,35 @@
+{
+  "labs/lab 1/lab1.qmd": {
+    "lab1.html": "8ad7edb4"
+  },
+  "labs/lab 2/lab2.qmd": {
+    "lab2.html": "8f4ebfa3"
+  },
+  "labs/lab 2/lab2 2.qmd": {
+    "lab2 2.html": "b9f0250e"
+  },
+  "posts/first-post 2.qmd": {
+    "first-post 2.html": "9c202267"
+  },
+  "posts/first-post.qmd": {
+    "first-post.html": "a70bdeb8"
+  },
+  "index.qmd": {
+    "index.html": "ad65568c"
+  },
+  "about.qmd": {
+    "about.html": "bc10cd2b"
+  },
+  "about 2.qmd": {
+    "about 2.html": "dc8ed1d0"
+  },
+  "blog 2.qmd": {
+    "blog 2.html": "ea32cdcb"
+  },
+  "index 2.qmd": {
+    "index 2.html": "ecccd712"
+  },
+  "blog.qmd": {
+    "blog.html": "a29c0d45"
+  }
+}
