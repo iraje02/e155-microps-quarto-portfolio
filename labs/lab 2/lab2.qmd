@@ -132,8 +132,8 @@ endmodule
 <details>
   <summary>Click to view the scanning testbench waveforms and transcript</summary>
 
-![](images/XXXX.jpeg)
-![](images/XXXX.jpeg)
+![](images/scanner_module_testbench.jpeg)
+![](images/scanner_module_testbench_transcript.jpeg)
 
 
   <p>Figure 2 and 3: Waveform simulation and transcript of the scanning module showing the 4 outputs cycling through and reset and enable working. In this testbench, maxcount was set to 4, and outputs were toggled as desired after every clock cycles. Transcript shows that all the tests were passed. </p>
@@ -210,8 +210,8 @@ endmodule
 <details>
   <summary>Click to view the top module testbench waveforms and transcript</summary>
 
-![](images/XXXX.jpeg)
-![](images/XXXX.jpeg)
+![](images/top_module_testbench.jpeg)
+![](images/top_module_testbench_transcript.jpeg)
 
 
   <p>Figure 4 and 5: Waveform simulation and transcript of the top module module showing y[0] and y[1] toggling everu cycle, revealing that both digits are being displayed with the intended hexadecimal pattern. Transcript shows that all the tests were passed. </p>
