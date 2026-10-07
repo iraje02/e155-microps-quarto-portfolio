@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ishita Raje">
+<meta name="dcterms.date" content="2026-10-07">
+
+<title>Lab 5: Interrupts and Quadrature Encoder – E155 (MicroPs) Portfolio</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-445b8638c3d06994fee0907d791121c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">E155 (MicroPs) Portfolio</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-labs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Labs</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-labs">    
+        <li>
+    <a class="dropdown-item" href="../../labs/lab 1/lab1.html">
+ <span class="dropdown-text">Lab 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../labs/lab 2/lab2.html">
+ <span class="dropdown-text">Lab 2</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a>
+  <ul class="collapse">
+  <li><a href="#overall-c-code-structure" id="toc-overall-c-code-structure" class="nav-link" data-scroll-target="#overall-c-code-structure">Overall C Code Structure</a>
+  <ul class="collapse">
+  <li><a href="#clock-configuration" id="toc-clock-configuration" class="nav-link" data-scroll-target="#clock-configuration">Clock Configuration</a></li>
+  <li><a href="#encoder-gpio-setup" id="toc-encoder-gpio-setup" class="nav-link" data-scroll-target="#encoder-gpio-setup">Encoder GPIO Setup</a></li>
+  <li><a href="#tim16-and-1-hz-configuration" id="toc-tim16-and-1-hz-configuration" class="nav-link" data-scroll-target="#tim16-and-1-hz-configuration">TIM16 and 1 Hz Configuration</a></li>
+  </ul></li>
+  <li><a href="#interrupts-configuration" id="toc-interrupts-configuration" class="nav-link" data-scroll-target="#interrupts-configuration">Interrupts Configuration</a></li>
+  <li><a href="#interrupts-vs-manual-polling" id="toc-interrupts-vs-manual-polling" class="nav-link" data-scroll-target="#interrupts-vs-manual-polling">Interrupts vs Manual Polling</a></li>
+  <li><a href="#quadrature-encoder-logic" id="toc-quadrature-encoder-logic" class="nav-link" data-scroll-target="#quadrature-encoder-logic">Quadrature Encoder Logic</a></li>
+  <li><a href="#recoding-pulses-and-calculating-velocity" id="toc-recoding-pulses-and-calculating-velocity" class="nav-link" data-scroll-target="#recoding-pulses-and-calculating-velocity">Recoding Pulses and Calculating Velocity</a></li>
+  </ul></li>
+  <li><a href="#technical-documnentation" id="toc-technical-documnentation" class="nav-link" data-scroll-target="#technical-documnentation">Technical Documnentation</a>
+  <ul class="collapse">
+  <li><a href="#github-repository" id="toc-github-repository" class="nav-link" data-scroll-target="#github-repository">GitHub Repository</a></li>
+  <li><a href="#schematics-diagram" id="toc-schematics-diagram" class="nav-link" data-scroll-target="#schematics-diagram">Schematics Diagram</a></li>
+  <li><a href="#flowchart-diagram" id="toc-flowchart-diagram" class="nav-link" data-scroll-target="#flowchart-diagram">Flowchart Diagram</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
+  <ul class="collapse">
+  <li><a href="#time-spent---21-hours" id="toc-time-spent---21-hours" class="nav-link" data-scroll-target="#time-spent---21-hours">Time Spent - 21 hours</a></li>
+  </ul></li>
+  <li><a href="#ai-prototyping" id="toc-ai-prototyping" class="nav-link" data-scroll-target="#ai-prototyping">AI Prototyping</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 5: Interrupts and Quadrature Encoder</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ishita Raje </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 7, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this lab , I developed a C program for the STM32L432KC microcontroller to read a quadrature encoder using interrupts and detect the rotational velcoity and direction of a DC motor. The encoder generates two square-wave signals (A and B) at their output channels that are 90 degrees out of phase, allowing the determination of both the position and direction of rotation.</p>
+<p>The encoder signals were read using external interrupts on the MCU rather than polling. Both the rising and falling edges of both encoders were monitored to maximize the resolution of the position measurement. A seperate timer interrupt was used to create a one-second time window, after which the number of encoder pulses was counted and used to calculate direction and velocity. The system was designed to update the velocity and direction at 1 Hz, providing a real-time measurement of the motor’s performance.</p>
+</section>
+<section id="design-and-testing-methodology" class="level1">
+<h1>Design and Testing Methodology</h1>
+<section id="overall-c-code-structure" class="level2">
+<h2 class="anchored" data-anchor-id="overall-c-code-structure">Overall C Code Structure</h2>
+<section id="clock-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="clock-configuration">Clock Configuration</h3>
+<p>The STM32L432KC was configured to run at 80 MHz using the internal MSI oscillator and the PLL. This ensured that the timers and GPIOs operated correctly for accurate encoder reading and timing. The code used the MCU’s 4MHz MSI oscillator as the clock source, and the PLL was configured to multiply this frequency to achieve the desired system clock speed with the following settings: <code>configurePLL(PLLSRC_MSI, 1, 40, 2)</code>. The PLL clock was selected as the system clock source using <code>selectSysclk(SW_PLL)</code>. Before increasing the clock speed, the flash latency was set to 4 using to ensure proper operation at higher frequencies. This system clockw as also used for the configuration of TIM16.</p>
+</section>
+<section id="encoder-gpio-setup" class="level3">
+<h3 class="anchored" data-anchor-id="encoder-gpio-setup">Encoder GPIO Setup</h3>
+<p>The quadrature encoder’s output channels were connected to GPIO pins PA6 and PA9 on the STM32L432KC, defined in main.h as ENCODER_A_PIN and ENCODER_B_PIN. The digitalRead() helper function reads the appropriate bit from the GPIO input data register (IDR). This was used inside the encoder interrupt handler to read the current states of A and B each time an encoder edge occurred.</p>
+</section>
+<section id="tim16-and-1-hz-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="tim16-and-1-hz-configuration">TIM16 and 1 Hz Configuration</h3>
+<p>TIM16 was used to create a fixed one second measurement interval. This served two purposes: it determined how long encoder pulses were accumulated before calculating velocity and controlled how often a new velocity value was printed in the terminal.</p>
+<p>The timer was configured with a prescaler of 7999 to divide the system clock’s 80MHz speed, giving a counter frequency of 10 kHz. The ARR was then calculated to be 9999, resulting in a timer overflow every 1 second. The timer configuration in <code>TIM16_init()</code> sets the peripheral clock, prescaler, auto-reload value, and forces an update so the settings take effect, clears the update flag, and starts the counter.</p>
+</section>
+</section>
+<section id="interrupts-configuration" class="level2">
+<h2 class="anchored" data-anchor-id="interrupts-configuration">Interrupts Configuration</h2>
+<p>The design used interrupts rather than polling so that encoder edges could be recorded immediately without requiring the main loop to continuously check the input pins. The interrupt setup was written using the STM32 CMSIS register definitions. The project includes the ST device header called stm32l432xx.h, which defines the memory-mapped registers for the STM32L432KC. This allowed the peripherals to be configured without using the STM32 HAL library.</p>
+<p>For the encoder, the SYSCFG periperal was first enabled, followed by GPIO pin PA6 being routed to EXTI6 and PA9 being routed to EXTI9. The EXTI interrupt mask register (IMR) was then set to enable interrupts for both channels. The rising and falling edge triggers were enabled in the EXTI rising trigger selection register (RTSR) and falling trigger selection register (FTSR). Finally, the NVIC was configured to enable the EXTI9_5_IRQn interrupts, which correspond to the encoder channels.</p>
+<p>For TIM16, the timer’s update interrupt was enabled in the DIER register, and the NVIC was configured to enable the TIM16_IRQn interrupt. This allowed the main loop to be interrupted every second to calculate and print the velocity and direction of the motor. Overall, the interrupt-based structure allowed encoder edges to be recorded independently of the main loop while TIM16 maintained a consistent one-second measurement interval.</p>
+</section>
+<section id="interrupts-vs-manual-polling" class="level2">
+<h2 class="anchored" data-anchor-id="interrupts-vs-manual-polling">Interrupts vs Manual Polling</h2>
+<p>At high motor speeds, interrupt-based code is more reliable than manual polling because the encoder can change state much faster than the main loop may be able to check the GPIO pins. In this design, the motor produced up to approximately 2.8 rev/s, and the encoder was treated as having 1632 detectable counts per revolution when both rising and falling edges of both channels were used. This corresponds to approximately [2.8 ]. encoder transitions per second, or one transition about every [ &nbsp;s.] A polling-based program would therefore need to check both encoder inputs substantially faster than about 4.6 kHz to reliably detect every transition, and any additional work in the main loop could cause pulses to be missed. An interrupt-based design allows the program to respond immediately to each transition, regardless of what else is happening in the main loop, ensuring accurate counting and velocity measurement. The tradeoff is that interrupts require more complex code and careful handling of shared variables, but the benefits in terms of accuracy and responsiveness are significant for this application.</p>
+</section>
+<section id="quadrature-encoder-logic" class="level2">
+<h2 class="anchored" data-anchor-id="quadrature-encoder-logic">Quadrature Encoder Logic</h2>
+<p>The quadrature encoder generates two square-wave signals, A and B, that are 90 degrees out of phase. These were montitored at both the rising and falling edges of both signals to maximize the resolution of the position measurement. The logic for determining direction is based on the state of the two signals at each edge transition whcih was handled by the interrupt functions.</p>
+<p>The current states of A and B were read using digitalRead() and the encoder count was incremented or decremented based on the direction of rotation.</p>
+<p>Because interrupts were generated from both encoder channels, the direction condition depended on which channel caused the transition. For an A transition, A != B represented one direction, while for a B transition, the same direction was represented by A == B. Using opposite comparisons for the two channels ensured that all four transitions in a quadrature cycle incremented the count in one physical direction and decremented it in the other. This allowed both encoder channels to improve resolution without their counts canceling each other.</p>
+</section>
+<section id="recoding-pulses-and-calculating-velocity" class="level2">
+<h2 class="anchored" data-anchor-id="recoding-pulses-and-calculating-velocity">Recoding Pulses and Calculating Velocity</h2>
+<p>At the end of every 1 second interval, the signed variable encoderCount conatined information on both displacement and direction. A positive value indicated clockwise rotation, while a negative value indicated counter-clockwise rotation. The absolute value of encoderCount was used to calculate the velocity in counts per second.</p>
+<p>Once the TIM16 interrupt occurred, the encoderCount was read and reset to zero for the next interval. The velocity and direction were then printed to the terminal.</p>
+<p>This specific (<a href="https://hmc-e155.github.io/lab/lab5/#:~:text=AI%20Prototype-,25GA%2D370,-Lab%205%3A%20Interrupts">25GA-370 DC Motor</a>) was specified as approximately 408 pulses per revolution. Since both edges of both encoder channels were counted, the code defined as 4 times the number of pulses per revolution, or 1632 counts per revolution. The velocity was thus calculated as:</p>
+<p><img src="images/velocitycalc.jpeg" class="img-fluid"></p>
+<p>main.c only performs this calculation whe. measurementReady is set, which occurs in the TIM16 interrupt handler. This ensures that the velocity is only calculated once per second, and that the encoderCount is reset for the next measurement interval.</p>
+</section>
+</section>
+<section id="technical-documnentation" class="level1">
+<h1>Technical Documnentation</h1>
+<section id="github-repository" class="level2">
+<h2 class="anchored" data-anchor-id="github-repository">GitHub Repository</h2>
+<p>The code for this lab is available in the <a href="https://github.com/iraje02/E155_MicroPs/tree/98aef190d1c383e8a069f4c6e0d24b2c54776e4e/lab%205">GitHub repository</a>.</p>
+</section>
+<section id="schematics-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="schematics-diagram">Schematics Diagram</h2>
+<p>The motor was connected to the STM32L432KC. The motor encoder channels were connected to GPIO pins PA6 and PA9 (which were chosen since they were 5V tolerant), and the motor was powered by an external power supply. A common ground was established between the motor power supply and the microcontroller to ensure proper signal reference.</p>
+<p><img src="images/schematic.jpeg" class="img-fluid"></p>
+</section>
+<section id="flowchart-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="flowchart-diagram">Flowchart Diagram</h2>
+<p>The flowchart below illustrates the main logic of the program, including the initialization of peripherals, the handling of encoder interrupts, and the calculation of velocity and direction.</p>
+<p><img src="images/flowchart.jpeg" class="img-fluid"></p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>In conclusion, I successfully implemented an interrupt-based quadrature encoder system on the STM32L432KC to measure the rotational velocity and direction of a brushed DC motor. Both rising and falling edges of both encoder channels were used to improve the measurement resolution, while TIM16 generated a one-second measurement period.</p>
+<p>The motor was measured at approximately 2.8 rev/s clockwise and counterclockwise at 12 V. The use of interrupts allowed for accurate and efficient handling of encoder signals, while the timer ensured consistent measurement intervals. The system was able to provide real-time feedback on the motor’s performance and print the speed and direction, demonstrating the effectiveness of using interrupts.</p>
+<section id="time-spent---21-hours" class="level2">
+<h2 class="anchored" data-anchor-id="time-spent---21-hours">Time Spent - 21 hours</h2>
+</section>
+</section>
+<section id="ai-prototyping" class="level1">
+<h1>AI Prototyping</h1>
+<p>The prompt given to Claude this week was: “Write me interrupt handlers to interface with a quadrature encoder. I’m using the STM32L432KC, what pins should I connect the encoder to in order to allow it to easily trigger the interrupts?”</p>
+<p>It responded with “On STM32, each EXTI line is tied to a pin number, so PA0 and PB0 can’t both be used as interrupt sources (both map to EXTI0). Lines 0 to 4 each get their own dedicated IRQ handler, while lines 5-9 and 10-15 share one. For a clean setup, put the encoder channels on two pin numbers in the 0-4 range.</p>
+<p>On the Nucleo-32 (L432KC), the best options are:</p>
+<p>Encoder signal Pin Nucleo label EXTI line / handler Channel A PA0 A0 EXTI0 → EXTI0_IRQHandler Channel B PA1 A1 EXTI1 → EXTI1_IRQHandler</p>
+<p>PB0 (D3) and PB1 (D6) also work, on the same EXTI0/EXTI1 lines. Just don’t mix them with PA0/PA1. If your encoder has an index/button signal, PA3 (A2) or PA4 (A3) gives you EXTI3/EXTI4 with their own handlers too.”</p>
+<p>While this does seem to be a good suggestion, I needed to use pins that were 5V tolerant for the encoder signals, but also present on the ribbon cable connector on the breadboard, which would allow for easy connection to the motor. The pins I used were PA6 and PA9, which are both 5V tolerant and available on the ribbon cable connector. This allowed for a clean and reliable connection to the motor encoder signals while still being able to use interrupts for accurate counting.</p>
+<p>Instead of checking A == B or A != B depending on which encoder channel interrupted, it stored the previous A/B state and used a 16-entry transition table to compare the previous and current encoder states. Overall, the AI prototype helped show a more robust alternative, but I chose the simpler A/B comparison method because it met the lab requirements and was easier to explain and verify experimentally.</p>
+<details>
+<summary>
+Click to view the C code generated by Claude Sonnet 5
+</summary>
+<p>#include “stm32l432xx.h”</p>
+<p>static volatile int32_t encoder_count = 0; static volatile uint8_t prev_state = 0; // (A&lt;&lt;1)|B</p>
+<p>// Index = (prev_state &lt;&lt; 2) | new_state static const int8_t qem[16] = { 0, +1, -1, 0, -1, 0, 0, +1, +1, 0, 0, -1, 0, -1, +1, 0 };</p>
+<p>static inline uint8_t read_encoder_state(void) { uint32_t idr = GPIOA-&gt;IDR; return (uint8_t)((((idr &gt;&gt; 0) &amp; 1) &lt;&lt; 1) | ((idr &gt;&gt; 1) &amp; 1)); // A=PA0, B=PA1 }</p>
+<p>static inline void encoder_update(void) { uint8_t new_state = read_encoder_state(); encoder_count += qem[(prev_state &lt;&lt; 2) | new_state]; prev_state = new_state; }</p>
+<p>void encoder_init(void) { // Clocks RCC-&gt;AHB2ENR |= RCC_AHB2ENR_GPIOAEN; RCC-&gt;APB2ENR |= RCC_APB2ENR_SYSCFGEN;</p>
+<p>// PA0, PA1 as inputs with pull-ups GPIOA-&gt;MODER &amp;= ~((3U &lt;&lt; (0 * 2)) | (3U &lt;&lt; (1 * 2))); GPIOA-&gt;PUPDR &amp;= ~((3U &lt;&lt; (0 * 2)) | (3U &lt;&lt; (1 * 2))); GPIOA-&gt;PUPDR |= ((1U &lt;&lt; (0 * 2)) | (1U &lt;&lt; (1 * 2)));</p>
+<p>// Route PA0 -&gt; EXTI0, PA1 -&gt; EXTI1 (port A = 0b0000) SYSCFG-&gt;EXTICR[0] &amp;= ~(SYSCFG_EXTICR1_EXTI0 | SYSCFG_EXTICR1_EXTI1);</p>
+<p>// Unmask, trigger on rising and falling edges EXTI-&gt;IMR1 |= EXTI_IMR1_IM0 | EXTI_IMR1_IM1; EXTI-&gt;RTSR1 |= EXTI_RTSR1_RT0 | EXTI_RTSR1_RT1; EXTI-&gt;FTSR1 |= EXTI_FTSR1_FT0 | EXTI_FTSR1_FT1;</p>
+<p>// Capture initial state before enabling interrupts prev_state = read_encoder_state();</p>
+<p>NVIC_SetPriority(EXTI0_IRQn, 1); NVIC_SetPriority(EXTI1_IRQn, 1); NVIC_EnableIRQ(EXTI0_IRQn); NVIC_EnableIRQ(EXTI1_IRQn); }</p>
+<p>void EXTI0_IRQHandler(void) { if (EXTI-&gt;PR1 &amp; EXTI_PR1_PIF0) { EXTI-&gt;PR1 = EXTI_PR1_PIF0; // clear pending (write 1) encoder_update(); } }</p>
+<p>void EXTI1_IRQHandler(void) { if (EXTI-&gt;PR1 &amp; EXTI_PR1_PIF1) { EXTI-&gt;PR1 = EXTI_PR1_PIF1; encoder_update(); } }</p>
+int32_t encoder_get_count(void) { return encoder_count; // 32-bit aligned read is atomic on Cortex-M4 }
+</details>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/iraje02\.github\.io\/e155-microps-quarto-portfolio\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
