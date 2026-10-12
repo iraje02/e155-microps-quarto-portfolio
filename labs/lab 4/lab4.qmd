@@ -1,0 +1,83 @@
+---
+title: "Lab 4: Digital Audio"
+author: "Ishita Raje"
+date: "9/30/2026"
+---
+# Introduction 
+In this lab, I developed a C program for the STM32L432KC Microcontroller to generate musical notes using hardware timers built into the MCU. Each note was represented by a frequency in Hertz and a duration in milliseconds. TIM16 was used to control the pitch by determining when the speaker output pin should toggle, while TIM15 was used to control how long each note lasted. This separated the timing of each square-wave cycle from the timing of the overall melody.
+
+The program used the onboard MCU-controlled GPIO pin PB7 as the digital audio output for an LM386 amplifier and an 8Ω speaker. The uploaded version contains the Für Elise song and an alternative arrangement of Mary Had a Little Lamb. The main goals were to implement memory-mapped timer drivers, relate the timer settings to the resulting pitches and durations, and evaluate the accuracy of the notes being generated.
+
+# Design and Testing Methodology
+## Hardware Design
+
+The intended audio signal path was PB7, the amplifier input circuitry using the LM386, and the speaker itself. The amplifier supplied the current needed by the speaker while not drawing more than the 10-20mA output of the MCU GPIO pins. The MCU and amplifier also require a common ground so that the input signal has a consistent voltage reference. Image 1 shows the pinout schematic of the low-voltage audio amplifier. 
+
+
+ // ADD IMAGE OF AMPLIFIER
+
+Pinout schematic of the LM386 low-voltage audio power amplifier, highlighting pin assignments.
+
+The schematic below shows the external circuit that was built. The on-board power and MCU connections are documented in the [development-board schematic](https://hmc-e155.github.io/assets/doc/E155%20FA22%20Development%20Board%20Schematic.pdf).
+
+// ADD IMAGE OF SCHEMATIC
+
+// ADD IMAGE OF BREADBOARD
+
+# Design and Testing Methodology
+
+## Hardware Design
+
+The audio system used the STM32L432KC microcontroller to generate a square-wave signal for an LM386 amplifier and an 8 Ω speaker. PB7 was selected as the output pin and configured as a digital output. The amplifier supplied the current needed to drive the speaker, while the microcontroller controlled the frequency and duration of the input signal. A common ground between the microcontroller and amplifier provided a shared voltage reference.
+
+**[Add your amplifier supply voltage, resistor and capacitor values, and potentiometer configuration, if used.]**
+
+## C Code Structure
+
+The program was divided into separate files for clock configuration, GPIO control, and the two timers. Each timer had a header file containing its register definitions and function declarations, and a source file containing its initialization and playback functions. `main.c` combined these functions to read the musical score and generate the output.
+
+### Clock and GPIO Configuration
+
+At the beginning of `main()`, `setFlashLatency(4)` configured the flash memory for operation at the higher clock speed. The program then called `configurePLL(PLLSRC_MSI, 1, 40, 2)` and `selectSysclk(SW_PLL)` to produce an intended system clock of 80 MHz from the 4 MHz MSI oscillator. With the bus prescalers unchanged from their reset settings, both timers also received an 80 MHz clock.
+
+The GPIOB clock was enabled through `RCC->AHB2ENR`. The program then used `pinMode()` to configure PB7 as an output and `digitalWrite()` to initialize it low.
+
+### Memory-Mapped Register Access
+
+The timer headers defined the base addresses of TIM15 and TIM16 as `0x40014000` and `0x40014400`, respectively. Register structures and pointer macros allowed the program to access registers using expressions such as `TIM15->PSC` and `TIM16->ARR`. The register fields were declared `volatile` so that the compiler preserved accesses to hardware registers, including status flags that could change independently of the program.
+
+The main registers used were the prescaler (`PSC`), auto-reload register (`ARR`), control register (`CR1`), event-generation register (`EGR`), and status register (`SR`).
+
+### TIM16: Pitch Control
+
+TIM16 controlled the frequency of each note. `TIM16_init()` enabled the timer clock and set its prescaler to 79, dividing the 80 MHz input by 80 to create a 1 MHz counter clock.
+
+`TIM16_play(frequency)` calculated the number of timer counts required for half of the requested square-wave period and set `ARR` accordingly. The calculation included rounding to the nearest integer to reduce pitch error.
+
+Whenever TIM16 overflowed, its update flag (`UIF`) became set. The main loop checked this flag, cleared it, and called `togglePin()` to change PB7’s output state. Two toggles produced one complete square-wave cycle. Therefore, this implementation used timer-controlled software toggling rather than a hardware PWM output.
+
+### TIM15: Duration Control
+
+TIM15 controlled how long each note or rest lasted. `TIM15_init()` set its prescaler to 7999, giving a counter frequency of 10 kHz, or one count every 0.1 ms.
+
+`TIM15_play(duration_ms)` set the reload value to `10 * duration_ms - 1`. For example, a 125 ms note required 1250 counts and an `ARR` value of 1249. The function limited durations to between 1 and 6553 ms so that the reload value fit within the 16-bit register.
+
+Both timer playback functions generated an update event to initialize the new timing settings, cleared the resulting update flag, and enabled the counter.
+
+### Main Playback Loop
+
+The melody was stored as a two-dimensional array containing frequency–duration pairs. For each entry, the program drove PB7 low, configured TIM16 for the requested pitch, and started TIM15 for the requested duration. It then polled both timers, toggling PB7 on TIM16 updates until TIM15 indicated that the note was complete.
+
+A frequency of zero represented a rest. In this case, TIM16 was disabled before the frequency calculation, preventing division by zero, and PB7 remained low while TIM15 measured the pause. A duration of zero marked the end of the song. Once this entry was reached, both timers were disabled and PB7 was held low.
+
+Für Elise was selected in the uploaded program. Mary Had a Little Lamb was included as a commented-out alternative that could use the same playback functions.
+
+## Testing Methodology
+
+Testing focused on pitch accuracy, note duration, rests, and overall playback. The timer settings were checked mathematically against the requested frequencies and durations, including every distinct pitch in the Für Elise score.
+
+For hardware verification, a fixed-frequency output could be measured at PB7 using an oscilloscope and compared with its expected period. Captures spanning note transitions could verify note durations and confirm that PB7 remained low during rests. The amplifier output also needed to be checked across an 8 Ω dummy load before connecting the speaker, allowing its current and power to be calculated from the measured voltage.
+
+**[Add the tests you actually performed, measured frequencies and durations, speaker-safety measurements, and observations from playing each melody.]**
+
+
