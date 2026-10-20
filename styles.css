@@ -1,1 +1,50 @@
 /* css styles */
+/* Small circular portrait */
+.profile-photo {
+  width: 160px;
+  height: 160px;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  display: block;
+  margin: 1rem 0 1.5rem;
+}
+
+/* Side-by-side buttons that wrap on small screens */
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 1.5rem 0 2rem;
+}
+
+.profile-links a.profile-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 12px 28px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.profile-button.linkedin {
+  background: #0a66c2;
+}
+
+.profile-button.github {
+  background: #171717;
+}
+
+.profile-button:hover {
+  transform: translateY(-2px);
+}
+
+.profile-button:focus-visible {
+  outline: 3px solid #2274a5;
+  outline-offset: 4px;
+}
