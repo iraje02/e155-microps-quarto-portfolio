@@ -76,6 +76,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -118,6 +147,14 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../labs/lab 2/lab2.html">
  <span class="dropdown-text">Lab 2</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../labs/lab 4/lab4.html">
+ <span class="dropdown-text">Lab 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../labs/lab 5/lab5.html">
+ <span class="dropdown-text">Lab 5</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -140,10 +177,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a>
   <ul class="collapse">
   <li><a href="#hardware-design" id="toc-hardware-design" class="nav-link" data-scroll-target="#hardware-design">Hardware Design</a></li>
-  </ul></li>
-  <li><a href="#design-and-testing-methodology-1" id="toc-design-and-testing-methodology-1" class="nav-link" data-scroll-target="#design-and-testing-methodology-1">Design and Testing Methodology</a>
-  <ul class="collapse">
-  <li><a href="#hardware-design-1" id="toc-hardware-design-1" class="nav-link" data-scroll-target="#hardware-design-1">Hardware Design</a></li>
   <li><a href="#c-code-structure" id="toc-c-code-structure" class="nav-link" data-scroll-target="#c-code-structure">C Code Structure</a>
   <ul class="collapse">
   <li><a href="#clock-and-gpio-configuration" id="toc-clock-and-gpio-configuration" class="nav-link" data-scroll-target="#clock-and-gpio-configuration">Clock and GPIO Configuration</a></li>
@@ -154,6 +187,7 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#testing-methodology" id="toc-testing-methodology" class="nav-link" data-scroll-target="#testing-methodology">Testing Methodology</a></li>
   </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -194,26 +228,14 @@ ul.task-list li input[type="checkbox"] {
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>In this lab, I developed a C program for the STM32L432KC Microcontroller to generate musical notes using hardware timers built into the MCU. Each note was represented by a frequency in Hertz and a duration in milliseconds. TIM16 was used to control the pitch by determining when the speaker output pin should toggle, while TIM15 was used to control how long each note lasted. This separated the timing of each square-wave cycle from the timing of the overall melody.</p>
-<p>The program used the onboard MCU-controlled GPIO pin PB7 as the digital audio output for an LM386 amplifier and an 8Ω speaker. The uploaded version contains the Für Elise song and an alternative arrangement of Mary Had a Little Lamb. The main goals were to implement memory-mapped timer drivers, relate the timer settings to the resulting pitches and durations, and evaluate the accuracy of the notes being generated.</p>
+<p>The program used the onboard MCU-controlled GPIO pin PB7 as the digital audio output for an LM386 amplifier and an 8Ω speaker. The uploaded version contains the Für Elise song and an alternative arrangement of ‘Mary Had a Little Lamb’. The main goals were to implement memory-mapped timer drivers, relate the timer settings to the resulting pitches and durations, and evaluate the accuracy of the notes being generated.</p>
 </section>
 <section id="design-and-testing-methodology" class="level1">
 <h1>Design and Testing Methodology</h1>
 <section id="hardware-design" class="level2">
 <h2 class="anchored" data-anchor-id="hardware-design">Hardware Design</h2>
-<p>The intended audio signal path was PB7, the amplifier input circuitry using the LM386, and the speaker itself. The amplifier supplied the current needed by the speaker while not drawing more than the 10-20mA output of the MCU GPIO pins. The MCU and amplifier also require a common ground so that the input signal has a consistent voltage reference. Image 1 shows the pinout schematic of the low-voltage audio amplifier.</p>
-<p>// ADD IMAGE OF AMPLIFIER</p>
-<p>Pinout schematic of the LM386 low-voltage audio power amplifier, highlighting pin assignments.</p>
-<p>The schematic below shows the external circuit that was built. The on-board power and MCU connections are documented in the <a href="https://hmc-e155.github.io/assets/doc/E155%20FA22%20Development%20Board%20Schematic.pdf">development-board schematic</a>.</p>
-<p>// ADD IMAGE OF SCHEMATIC</p>
-<p>// ADD IMAGE OF BREADBOARD</p>
-</section>
-</section>
-<section id="design-and-testing-methodology-1" class="level1">
-<h1>Design and Testing Methodology</h1>
-<section id="hardware-design-1" class="level2">
-<h2 class="anchored" data-anchor-id="hardware-design-1">Hardware Design</h2>
-<p>The audio system used the STM32L432KC microcontroller to generate a square-wave signal for an LM386 amplifier and an 8 Ω speaker. PB7 was selected as the output pin and configured as a digital output. The amplifier supplied the current needed to drive the speaker, while the microcontroller controlled the frequency and duration of the input signal. A common ground between the microcontroller and amplifier provided a shared voltage reference.</p>
-<p><strong>[Add your amplifier supply voltage, resistor and capacitor values, and potentiometer configuration, if used.]</strong></p>
+<p>The STM32L432KC generated the square-wave input to the LM386 amplifier, which drove the 8Ω speaker. I used PB7, configured as a GPIO output, to send the square-wave signal to the amplifier and connected the microcontroller and amplifier grounds together. The amplifier was powered by a 5V supply. I also used a volume potentiometer to adjust the sound coming from the speaker. Turning it one way reduced the volume to zero, while turning it the other way made the speaker very loud. The microcontroller determined the note frequency and duration, while the amplifier drove the speaker.</p>
+<p><img src="images/schematic.jpeg" class="img-fluid"></p>
 </section>
 <section id="c-code-structure" class="level2">
 <h2 class="anchored" data-anchor-id="c-code-structure">C Code Structure</h2>
@@ -236,25 +258,30 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="tim15-duration-control" class="level3">
 <h3 class="anchored" data-anchor-id="tim15-duration-control">TIM15: Duration Control</h3>
-<p>TIM15 controlled how long each note or rest lasted. <code>TIM15_init()</code> set its prescaler to 7999, giving a counter frequency of 10 kHz, or one count every 0.1 ms.</p>
-<p><code>TIM15_play(duration_ms)</code> set the reload value to <code>10 * duration_ms - 1</code>. For example, a 125 ms note required 1250 counts and an <code>ARR</code> value of 1249. The function limited durations to between 1 and 6553 ms so that the reload value fit within the 16-bit register.</p>
+<p>TIM15 controlled how long each note played. I set <code>PSC = 7999</code> to obtain a 10 kHz counter clock, so each count represented 0.1 ms. For a note duration of <code>duration_ms</code>, I set</p>
+<p><span class="math display">\[
+ARR = 10\,duration_{ms}-1.
+\]</span></p>
+<p>For example, a 125 ms note required 1250 timer counts, so <code>ARR = 1249</code>. Once TIM15 reached its overflow, the main loop stopped playing that note and moved to the next one.</p>
 <p>Both timer playback functions generated an update event to initialize the new timing settings, cleared the resulting update flag, and enabled the counter.</p>
 </section>
 <section id="main-playback-loop" class="level3">
 <h3 class="anchored" data-anchor-id="main-playback-loop">Main Playback Loop</h3>
 <p>The melody was stored as a two-dimensional array containing frequency–duration pairs. For each entry, the program drove PB7 low, configured TIM16 for the requested pitch, and started TIM15 for the requested duration. It then polled both timers, toggling PB7 on TIM16 updates until TIM15 indicated that the note was complete.</p>
 <p>A frequency of zero represented a rest. In this case, TIM16 was disabled before the frequency calculation, preventing division by zero, and PB7 remained low while TIM15 measured the pause. A duration of zero marked the end of the song. Once this entry was reached, both timers were disabled and PB7 was held low.</p>
-<p>Für Elise was selected in the uploaded program. Mary Had a Little Lamb was included as a commented-out alternative that could use the same playback functions.</p>
+<p>Für Elise was selected in the uploaded program. Mary Had a Little Lamb was included as a commented-out alternative that could use the same playback functions. I tested the playback of both of these songs, and hacing both of them stored as frequency-duration pairs allowed me to swicth songs without chnaging any timer logic.</p>
 </section>
 </section>
 <section id="testing-methodology" class="level2">
 <h2 class="anchored" data-anchor-id="testing-methodology">Testing Methodology</h2>
-<p>Testing focused on pitch accuracy, note duration, rests, and overall playback. The timer settings were checked mathematically against the requested frequencies and durations, including every distinct pitch in the Für Elise score.</p>
-<p>For hardware verification, a fixed-frequency output could be measured at PB7 using an oscilloscope and compared with its expected period. Captures spanning note transitions could verify note durations and confirm that PB7 remained low during rests. The amplifier output also needed to be checked across an 8 Ω dummy load before connecting the speaker, allowing its current and power to be calculated from the measured voltage.</p>
-<p><strong>[Add the tests you actually performed, measured frequencies and durations, speaker-safety measurements, and observations from playing each melody.]</strong></p>
-
-
+<p>I tested the system by listening to the songs through the speaker. I was able to play both <em>Für Elise</em> and <em>Mary Had a Little Lamb</em> using the same timer functions. I also tested the volume potentiometer and found that it provided a wide range of volume control, from silent at one end to very loud at the other. This let me adjust the speaker volume without changing the frequencies or durations in the code.</p>
 </section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>This lab helped me understand how to use two timers at the same time for separate tasks. TIM16 determined the time between output toggles, which controlled pitch, while TIM15 determined when to move on to the next note. Keeping the score as frequency–duration pairs also made the program easier to modify and test with different melodies. I was able to play both songs through the amplifier and adjust the loudness using the potentiometer. The main takeaway was learning how to configure and coordinate two timer peripherals on the MCU for different tasks instead of relying on software deay loops to play desired frequencies and durations.</p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -331,7 +358,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/iraje02\.github\.io\/e155-microps-quarto-portfolio\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
