@@ -1,23 +1,13 @@
 ---
 title: "E155 (MicroPs) Portfolio"
 ---
+![](images/headshot.jpeg){.profile-photo}
 
 I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences.
 My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems.
 You can learn more about my work experience and projects on my LinkedIn and GitHub.
 
 <div class="profile-links">
-  <a class="profile-button linkedin"
-     href="www.linkedin.com/in/ishita-raje"
-     target="_blank" rel="noopener noreferrer">
-    LinkedIn ↗
-  </a>
-  <a class="profile-button github"
-     href="https://github.com/iraje02"
-     target="_blank" rel="noopener noreferrer">
-    GitHub ↗
-  </a>
+  <a class="profile-button linkedin" href="https://www.linkedin.com/in/ishita-raje">LinkedIn ↗</a>
+  <a class="profile-button github" href="https://github.com/iraje02">GitHub ↗</a>
 </div>
-
----
-![](images/headshot.jpeg){.profile-photo fig-alt="Portrait of Ishita Raje"}

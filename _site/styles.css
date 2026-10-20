@@ -1,1 +1,50 @@
-/* css styles */
+img.profile-photo {
+  width: 400px !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  display: block;
+  margin: 32px auto;
+}
+
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  margin: 36px 0;
+}
+
+.profile-links a.profile-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  padding: 18px 38px;
+  border-radius: 12px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.profile-links a.linkedin {
+  background-color: #0a66c2 !important;
+}
+
+.profile-links a.github {
+  background-color: #171717 !important;
+}
+
+.profile-links a:hover {
+  filter: brightness(1.1);
+}
+
+.profile-links a:focus-visible {
+  outline: 3px solid #2274a5;
+  outline-offset: 4px;
+}
