@@ -19,6 +19,10 @@ website:
             text: Lab 4
           - href: labs/lab 5/lab5.qmd
             text: Lab 5
+          - href: labs/lab 6/lab6.qmd
+            text: Lab 6
+          - href: labs/lab 7/lab7.qmd
+            text: Lab 7
 
 format:
   html:
