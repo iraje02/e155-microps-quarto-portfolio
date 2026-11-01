@@ -231,6 +231,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="aes-algorithm-specifications" class="level2">
 <h2 class="anchored" data-anchor-id="aes-algorithm-specifications">AES Algorithm Specifications</h2>
 <p>Before writing the code for this lab, I read through Section 3 to 5.2 of the FIPS 197 specification to understand the details of the AES algorithm, including the structure of the state, the round transformations, and the key expansion process. One detail that mattered throughout the lab is how the state is packed into a 128-bit bus. The bytes fill the 4x4 grid down each column, not across each row, so each 32-bit word of the bus is one column of the state. This means the byte in row r and column c sits at bits [127 - 8(4c + r)] down to 8 bits below that, a formula I used in several modules.</p>
+<p>/<img src="images/pseudocode.png" class="img-fluid" alt="AES Pseudocode"></p>
 </section>
 <section id="datapath-design" class="level2">
 <h2 class="anchored" data-anchor-id="datapath-design">Datapath Design</h2>
