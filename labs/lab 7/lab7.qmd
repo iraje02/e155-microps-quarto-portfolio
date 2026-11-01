@@ -9,7 +9,6 @@ In this lab, I explored the Advanced Encryption Standard (AES) algorithm and bui
 
 AES scrambles a message over ten rounds. Each round applies four steps to a 4x4 grid of bytes called the state: SubBytes, ShiftRows, MixColumns, and AddRoundKey. Additionally there is a separate key expansion process that is used to generate new 128-bit round keys from the original 128-bit key. The full encryption process is very large to build as one block of combinational logic on the FPGA, thus the design helps perform the same AES technique, but only one round at a time and uses the hardware ten different times, with a finite state machine controller helping to sequence the rounds.
 
-
 The MCU and SPI interface were provided, so the main work for this lab was designing, testing and debugging the aes_core_module on the FPGA and then getting it to work on hardware.
 
 
@@ -17,6 +16,7 @@ The MCU and SPI interface were provided, so the main work for this lab was desig
 ## AES Algorithm Specifications
 Before writing the code for this lab, I read through Section 3 to 5.2 of the FIPS 197 specification to understand the details of the AES algorithm, including the structure of the state, the round transformations, and the key expansion process. One detail that mattered throughout the lab is how the state is packed into a 128-bit bus. The bytes fill the 4x4 grid down each column, not across each row, so each 32-bit word of the bus is one column of the state. This means the byte in row r and column c sits at bits [127 - 8(4c + r)] down to 8 bits below that, a formula I used in several modules.
 
+/![AES Pseudocode](images/pseudocode.png)
 
 ## Datapath Design
 The datapath has two 128-bit registers: a state register and a key register. The load signal from the MCU is first synchronized to the FPGA clock by passing it through two flip-flops in series, and only the synchronized version is used inside aes_core. While the synchronized load is high, a mux loads the state register with the plaintext XORed with the key, and a second mux loads the key register with the original key. After loading, each round sends the state register through SubBytes, ShiftRows, MixColumns and AddRoundKey and saves the result back into the state register. At the same time, the key register goes through key expansion and the new round key is saved back into the key register. Both registers are clocked by the system clock and only save when the controller asserts enable.
