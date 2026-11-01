@@ -175,6 +175,125 @@
     "text": "FPGA Hardware Testing Results\nAfter successful simulation of the design, the FPGA was programmed using Lattice Radiant to see if the desired LEDs and seven-segment display turned on as expected. The FPGA board is programmed with the .bin file that is generated after Design Synthesis of the top module. Pins were assigned to the DIP switch inputs s[3:0] and the outputs led[2:0] and seg[6:0] using the Lattice Radiant Pin Assignment tool.\nPrior to testing, the seven-segment display HDSP-511C was connected to a breadboard and the pins were connected to the FPGA board using a ribbon cable. The seven segment LEDs were then wired in series with a current-limiting resistor to ensure that the current draw from the FPGA board was less than 200mA and that each diode was getting a current ~8mA. Given that it typically has a forward voltage drop of 2V, and the FPGA board provides 3.3V, the resistor value was calculated as R = (Vdd - Vf)/If = (3.3V - 2V)/0.008A = 162.5Ω. So a standard 160Ω resistor was used."
   },
   {
+    "objectID": "labs/lab 7/lab7.html",
+    "href": "labs/lab 7/lab7.html",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "",
+    "text": "In this lab, I explored the Advanced Encryption Standard (AES) algorithm and built a hardware implementation on the iCE40 UltraPlus FPGA that performed a 128-bit AES encryption, following the (NIST FIPS-197 specification). The microcontroller was also used to send a 128-bit plain text message and a 128-bit key to the FPGA for encryption over SPI, and the MCU read the 128-bit ciphertext back and checks it against the expected answer from Appendix A.1 and B of the linked standard.\nAES scrambles a message over ten rounds. Each round applies four steps to a 4x4 grid of bytes called the state: SubBytes, ShiftRows, MixColumns, and AddRoundKey. Additionally there is a separate key expansion process that is used to generate new 128-bit round keys from the original 128-bit key. The full encryption process is very large to build as one block of combinational logic on the FPGA, thus the design helps perform the same AES technique, but only one round at a time and uses the hardware ten different times, with a finite state machine controller helping to sequence the rounds.\nThe MCU and SPI interface were provided, so the main work for this lab was designing, testing and debugging the aes_core_module on the FPGA and then getting it to work on hardware."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#aes-algorithm-specifications",
+    "href": "labs/lab 7/lab7.html#aes-algorithm-specifications",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "AES Algorithm Specifications",
+    "text": "AES Algorithm Specifications\nBefore writing the code for this lab, I read through Section 3 to 5.2 of the FIPS 197 specification to understand the details of the AES algorithm, including the structure of the state, the round transformations, and the key expansion process. One detail that mattered throughout the lab is how the state is packed into a 128-bit bus. The bytes fill the 4x4 grid down each column, not across each row, so each 32-bit word of the bus is one column of the state. This means the byte in row r and column c sits at bits [127 - 8(4c + r)] down to 8 bits below that, a formula I used in several modules."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#datapath-design",
+    "href": "labs/lab 7/lab7.html#datapath-design",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "Datapath Design",
+    "text": "Datapath Design\nThe datapath has two 128-bit registers: a state register and a key register. The load signal from the MCU is first synchronized to the FPGA clock by passing it through two flip-flops in series, and only the synchronized version is used inside aes_core. While the synchronized load is high, a mux loads the state register with the plaintext XORed with the key, and a second mux loads the key register with the original key. After loading, each round sends the state register through SubBytes, ShiftRows, MixColumns and AddRoundKey and saves the result back into the state register. At the same time, the key register goes through key expansion and the new round key is saved back into the key register. Both registers are clocked by the system clock and only save when the controller asserts enable."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#subbytes",
+    "href": "labs/lab 7/lab7.html#subbytes",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "SubBytes",
+    "text": "SubBytes\nThe SUbBytes step replaces each of the 16 bytes of the state with a value from the S-box lookup table. I used 16 instances of the provided sbox_sync module, oen per byte. In each instance, one byte of the state feeds into the sbox_sync module and the output is written into the same byte position of the state, since SubBytes only changes the value, not the position. The sbox_sync module is stored in teh FPGA’s embedded blcok RAM rather than logic cells, which is what allows the deisgn to fiton the chip. Given that block RAM is synchronous, the output of the sbox module is available one clock cycle after the input is provided."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#shiftrows",
+    "href": "labs/lab 7/lab7.html#shiftrows",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "ShiftRows",
+    "text": "ShiftRows\nThe ShiftRows step cyclically shifts the bytes in each row of the state to the left by a certain offset. Row 0 is left unchanges, and row 1 is shifted by 1 byte, row 2 by 2 bytes, and row 3 by 3 bytes. This step helps to provide diffusion by mixing the bytes across columns. In hardware this only involved rewiring, and in grid form, the output row r and column c comes from input row r and column (c + r) mod 4 in order to handle the wrap around."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#mixcolumns",
+    "href": "labs/lab 7/lab7.html#mixcolumns",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "MixColumns",
+    "text": "MixColumns\nThe MixColumns step takes each column of the state and transforms it using a fixed matrix multiplication in the finite field GF(2^8). This step further mixes the four bytes in each column using Galois field arithmetic, so that every output byte depends on all four input bytes of the column. In hardware, this is typically implemented using combinational logic that performs the necessary finite field multiplications and XOR operations, which was provided to us in the lab. Since the last round of the AES encryption skips MixColumns, I added a bypass mux after this module that selects either the output of MixColumns or output of ShiftRows based on whether it is the last round."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#addroundkey",
+    "href": "labs/lab 7/lab7.html#addroundkey",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "AddRoundKey",
+    "text": "AddRoundKey\nThe AddRoundKey was the easiest step to implement, as it simply involves a 128-bit XOR between the current state and the round key."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#key-expansion",
+    "href": "labs/lab 7/lab7.html#key-expansion",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "Key Expansion",
+    "text": "Key Expansion\nThe key expansion module computes the next round key from the current one, following Figure 6 from the FIPS 197 specification shown below. The current key is split into 4 32-bit words, and the last word is put through the three steps of rotation (RotWord) which moves the first byte to the end, S-box substitution of each of the 4 bytes (SubWord) using sbox_sync, and finally XORing with the round constant (Rcon). Since only the top byt of Rcon is ever non-zero, it meant that only the top byte of SubWord result is ever changing.\nIt involves rotating the last word of the current key, applying the S-box to each byte, XORing with a round constant, and then XORing with the corresponding word of the previous round key to generate the new round key. This process is repeated for each word of the key to produce the complete next round key.\nRcon doubles each round, going from 01 in round 1 to 1B in round 9 and 36 in round 10, and I implemented it as a case statement on the round number. The four new words are then computed as a chain of XORs, where each new word depends on the one just created. Since both key expansion and SubBytes use synchronous S-boxes, the new state and the new round key are ready on the same clock cycle.\n\n\n\nKey Expansion"
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#controller-fsm",
+    "href": "labs/lab 7/lab7.html#controller-fsm",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "Controller FSM",
+    "text": "Controller FSM\nThe controler was a separate module I created that contained a four-state FSM and a round counter as shown below. - LOAD: The FSM entered the LOAD state whenever load was high, and the round counter is set to 1. - WAIT: In the WAIT state, the registers hold their values while the S-boxes look up their outputs. This state was necessary because of the one-cycle latency of the synchronous S-boxes. If the registers saved on the first clock edge of a round, they would capture the previous round’s S-box output. Each round therefore takes two clock cycles: one for the S-box lookup and one to save the result. - SAVE: In the SAVE state, the S-box outputs are now valid, so enable is asserted and both registers save the finished round, and the round counter increments. If the round was 10, the FSM moves to DONE, otherwise it returns to WAIT. - DONE: In the DONE state, done is asserted and held, keeping the ciphertext stable until the next load.\nThe outputs of the controller are the enable signal, the round counter, and the done signal, which indicate when the datapath should save the current round, which round is currently being processed, and when the encryption is complete, respectively.\n\n\n\nController FSM"
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#top-level-module",
+    "href": "labs/lab 7/lab7.html#top-level-module",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "Top-Level Module",
+    "text": "Top-Level Module\nThe provided aes module has clk as an input. I wanted to use the iCE40’s internal high-speed oscillator instead of an external clock, thus inside the top-module aes, I instantiated the HSOSC and passed its output to aes as the clock. The HSOSC was configured with CLKHF_DIV = 00, giving a 48MHz clock, similar to what I have used in previous labs."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#spi-interface",
+    "href": "labs/lab 7/lab7.html#spi-interface",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "SPI Interface",
+    "text": "SPI Interface\nThe MCU and FPGA are connected through the SW7 DIP switch on the E155 development board. Using the pin definitions in STM32L432KC_SPI.h and lab7.c together with the board schematic, I assigned the FPGA pins as follows: sck to FPGA pin 21 (MCU PB3), sdi to pin 10 (MCU PB5), sdo to pin 12 (MCU PB4), load to pin 26 (MCU PA5), and done to pin 27 (MCU PA6). PA11 is toggled by the MCU around each byte as an artificial chip-select. It is not used by the FPGA, but it allows the oscilloscope to decode the SPI bytes."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#github-repository",
+    "href": "labs/lab 7/lab7.html#github-repository",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "GitHub Repository",
+    "text": "GitHub Repository\nThe code for this lab is available in the GitHub repository."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#block-diagram",
+    "href": "labs/lab 7/lab7.html#block-diagram",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "Block Diagram",
+    "text": "Block Diagram\nThe image below showsn the block diagram for the AES accelerator.The controller FSM helped drive the enable, round and lastround signals while the datapath contains the state and key registrats, SubBytes, ShiftRows, MixColumns, and AddRoundKey modules that were instantiated and connected to form the complete AES round."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#core-testbench-aes_core_module",
+    "href": "labs/lab 7/lab7.html#core-testbench-aes_core_module",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "Core Testbench (aes_core_module)",
+    "text": "Core Testbench (aes_core_module)\nThe testbench_aes_core testbench applies the FIPS-197 Appendix B key and plaintext to aes_core and checks the ciphertext once done is asserted. The design passed and produced the expected ciphertext 3925841d02dc09fbdc118597196a0b32. Waveform below shows the simulation results for the testbench."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#full-system-testbench",
+    "href": "labs/lab 7/lab7.html#full-system-testbench",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "Full System Testbench",
+    "text": "Full System Testbench\nThe testbench_aes_spi testbench shifts the plaintext and key into the full aes module over SPI, waits for done, and shifts the ciphertext back out. The design passed this testbench as well. Waveform below shows the simulation results for the testbench."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#hardware",
+    "href": "labs/lab 7/lab7.html#hardware",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "Hardware",
+    "text": "Hardware\nAfter programming the FPGA and flashing the MCU, the MCU’s success LED (PA9) lit up, confirming that the FPGA returned the correct ciphertext. However, my first hardware version was unreliable: pressing the MCU reset button sometimes lit the success LED and sometimes lit the failure LED (PA10). Since the pins, SPI and S-boxes were all clearly working on the passing runs, the issue was likely related to timing or reset synchronization between the MCU and FPGA.\nAfter debugging, I found that the cause was the unsynchronized load signal described above. After adding the two-flip-flop synchronizer, the success LED lit on every reset."
+  },
+  {
+    "objectID": "labs/lab 7/lab7.html#time-spent---27-hours",
+    "href": "labs/lab 7/lab7.html#time-spent---27-hours",
+    "title": "Lab 7: The Advanced Encryption Standard (AES)",
+    "section": "Time Spent - 27 hours",
+    "text": "Time Spent - 27 hours"
+  },
+  {
     "objectID": "labs/lab 2/lab2.html",
     "href": "labs/lab 2/lab2.html",
     "title": "Lab 2: Multiplexed 7-Segment Display and Keypad Row Scanning",
