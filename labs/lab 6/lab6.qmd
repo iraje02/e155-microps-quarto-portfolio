@@ -67,7 +67,7 @@ In conclusion, I built an internet-accessible temperature monitor using the STM3
 # AI Prototype 
 This week's prompt was "I’m making a web portal to interface with a temperature sensor. Create a HTML page that looks good and is intuitive to show the temperature, control an LED, and change the precision of the readout." For this I used Gemini to generate a prototype of the webpage. The generated HTML was then modified to include the correct tags for the ESP8266 to send requests to the MCU, and to display the current temperature and LED status. The buttons for turning the LED on and off and for changing the resolution were also added. The final webpage is shown in the screenshots below. While aesthetically pleasing, the HTML shows assumptions made about the LED where I would be able to adjust the color of the LED, which is not possible with the hardware. 
 
-![AI Prototyped Website](images/ai_prototype.png)
+![AI Prototyped Website](images/ai_prototyping.png)
 
 The LLM generated a C function to read the temperature from the DS1722. Like my driver, Gemini used the CMSIS register definitions, drove the active-high chip enable, and accessed the SPI data register through an 8-bit pointer. Unlike mine, it read the LSB and MSB in a single burst transaction using the sensor’s address auto-increment, which is more efficient than my two separate transactions. Its conversion was wrong for negative temperatures since it subtracted the fractional part when the MSB was negative, so −10.5 °C would read as −11.5 °C. My driver avoids this by combining both bytes into a signed 16-bit value and dividing by 256. Overall, the generated code was a useful reference, but it needed careful checking against the datasheet before it could be trusted.
 
