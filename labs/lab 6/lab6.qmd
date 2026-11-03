@@ -38,12 +38,12 @@ The main loop handles one request each time it runs. It first reads characters f
 
 Below are the screenshots of the webpage at 8-bit and 12-bit resolution, showing the temperature in ºC with one and four decimal places, respectively as well as one with the LED on and off.
 
-[![Webpage screenshots showing different resolutions](images/webpage_screenshot.png)]
+![Webpage screenshots showing different resolutions](images/webpage_screenshot.png)
 
 ## SPI Oscilloscope Capture
 In order to verify that the SPI communication was working correctly, I used an oscilloscope to capture the signals on the SPI lines. The capture shows the clock (SCK), master out slave in (MOSI), and master in slave out (MISO) signals during a temperature read operation. The timing, frequencies and voltages were checked againts the datasheet and shows expected behavior. 
 
-[![SPI Oscilloscope Capture](images/spi_capture.png)]
+![SPI Oscilloscope Capture](images/spi_capture.png)
 
 # Technical Documentation
 ## GitHub Repository
@@ -52,7 +52,7 @@ The code for this lab is available in the [GitHub repository](https://github.com
 ## Schematic Diagram
 The DS1722 was wired on the breadboard with SCK connected to PA5, SDO to PA6, SDI to PB5, and CE to PB4. SERMODE was tied to 3.3 V to select SPI mode. The ESP8266 was plugged into the mikroBUS socket, which connects it to USART1 on the MCU. The onboard LED is connected to PB3. The FPGA DIP switches were left open so the FPGA would not interfere with the MCU's pins.
 
-[![Schematic Diagram](images/schematic.png)]
+![Schematic Diagram](images/schematic.png)
 
 # Conclusion
 In conclusion, I built an internet-accessible temperature monitor using the STM32L432KC, a DS1722 temperature sensor, and an ESP8266. I wrote an SPI driver using the CMSIS register definitions and a DS1722 driver that supports all five resolution settings and correctly converts both positive and negative temperatures. The webpage displays the current temperature, which updates on refresh, lets the user turn the LED on and off, and lets the user change the sensor's resolution. The design meets all of the lab requirements.
