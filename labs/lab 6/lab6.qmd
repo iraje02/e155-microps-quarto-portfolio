@@ -43,7 +43,12 @@ Below are the screenshots of the webpage at 8-bit and 12-bit resolution, showing
 ## SPI Oscilloscope Capture
 In order to verify that the SPI communication was working correctly, I used an oscilloscope to capture the signals on the SPI lines. The capture shows the clock (SCK), master out slave in (MOSI), and master in slave out (MISO) signals during a temperature read operation. The timing, frequencies and voltages were checked againts the datasheet and shows expected behavior. 
 
-![SPI Oscilloscope Capture](images/spi_capture.png)
+The captures below show a full SPI read of the DS1722's temperature MSB. CE goes high to start the transaction and stays high for both bytes. In the first byte, the MCU sends the address 0x02 on SDI. In the second byte, the MCU sends 0x00 while the DS1722 shifts out the temperature MSB on SDO, which reads 0x17 (23°C). SCLK idles low since polarity was set to 0, and data is shifted on the rising edge and sampled on the falling edge.
+
+The measured timings also match the expected values. The SCK frequency was measured at 2.5 MHz, which is below the DS1722's maximum of 5 MHz. CE rises 960 ns before the first SCLK edge, above the 400 ns minimum. CE also stays high for about 1.7 µs after the last SCLK edge, above the 100 ns minimum.
+
+![SPI Oscilloscope Capture](images/scope_3.png)
+![SPI Oscilloscope Capture](images/scope_4.png)
 
 # Technical Documentation
 ## GitHub Repository
@@ -58,4 +63,3 @@ The DS1722 was wired on the breadboard with SCK connected to PA5, SDO to PA6, SD
 In conclusion, I built an internet-accessible temperature monitor using the STM32L432KC, a DS1722 temperature sensor, and an ESP8266. I wrote an SPI driver using the CMSIS register definitions and a DS1722 driver that supports all five resolution settings and correctly converts both positive and negative temperatures. The webpage displays the current temperature, which updates on refresh, lets the user turn the LED on and off, and lets the user change the sensor's resolution. The design meets all of the lab requirements.
 
 ## Time Spent - 15 hours
-
