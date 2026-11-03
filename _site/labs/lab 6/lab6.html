@@ -287,12 +287,9 @@ T = \frac{(\text{MSB} \ll 8) \,|\, \text{LSB}}{256} \quad (^\circ\text{C})
 <section id="spi-oscilloscope-capture" class="level2">
 <h2 class="anchored" data-anchor-id="spi-oscilloscope-capture">SPI Oscilloscope Capture</h2>
 <p>In order to verify that the SPI communication was working correctly, I used an oscilloscope to capture the signals on the SPI lines. The capture shows the clock (SCK), master out slave in (MOSI), and master in slave out (MISO) signals during a temperature read operation. The timing, frequencies and voltages were checked againts the datasheet and shows expected behavior.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/spi_capture.png" class="img-fluid figure-img"></p>
-<figcaption>SPI Oscilloscope Capture</figcaption>
-</figure>
-</div>
+<p>The captures below show a full SPI read of the DS1722’s temperature MSB. CE goes high to start the transaction and stays high for both bytes. In the first byte, the MCU sends the address 0x02 on SDI. In the second byte, the MCU sends 0x00 while the DS1722 shifts out the temperature MSB on SDO, which reads 0x17 (23°C). SCLK idles low since polarity was set to 0, and data is shifted on the rising edge and sampled on the falling edge.</p>
+<p>The measured timings also match the expected values. The SCK frequency was measured at 2.5 MHz, which is below the DS1722’s maximum of 5 MHz. CE rises 960 ns before the first SCLK edge, above the 400 ns minimum. CE also stays high for about 1.7 µs after the last SCLK edge, above the 100 ns minimum.</p>
+<p><img src="images/scope_3.png" class="img-fluid" alt="SPI Oscilloscope Capture"> <img src="images/scope_4.png" class="img-fluid" alt="SPI Oscilloscope Capture"></p>
 </section>
 </section>
 <section id="technical-documentation" class="level1">
