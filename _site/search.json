@@ -9,7 +9,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "E155 (MicroPs) Portfolio",
+    "title": "Engineering Portfolio",
     "section": "",
     "text": "I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences. My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems. You can learn more about my work experience and projects on my LinkedIn and GitHub.\n\nLinkedIn ↗ GitHub ↗"
   },
@@ -411,5 +411,54 @@
     "title": "About",
     "section": "",
     "text": "About this site"
+  },
+  {
+    "objectID": "e190bo/index.html",
+    "href": "e190bo/index.html",
+    "title": "E190BO: AI Amplified Prototyping",
+    "section": "",
+    "text": "Projects and reflections from AI Amplified Prototyping."
+  },
+  {
+    "objectID": "e190bo/index.html#projects",
+    "href": "e190bo/index.html#projects",
+    "title": "E190BO: AI Amplified Prototyping",
+    "section": "Projects",
+    "text": "Projects\nProject documentation coming soon."
+  },
+  {
+    "objectID": "e80/index.html",
+    "href": "e80/index.html",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "",
+    "text": "Documentation coming soon."
+  },
+  {
+    "objectID": "e80/index.html#project-overview",
+    "href": "e80/index.html#project-overview",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "",
+    "text": "Documentation coming soon."
+  },
+  {
+    "objectID": "e80/index.html#my-contributions",
+    "href": "e80/index.html#my-contributions",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "My Contributions",
+    "text": "My Contributions"
+  },
+  {
+    "objectID": "e80/index.html#design-and-implementation",
+    "href": "e80/index.html#design-and-implementation",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "Design and Implementation",
+    "text": "Design and Implementation"
+  },
+  {
+    "objectID": "e80/index.html#testing-and-results",
+    "href": "e80/index.html#testing-and-results",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "Testing and Results",
+    "text": "Testing and Results"
   }
 ]

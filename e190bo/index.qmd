@@ -1,0 +1,9 @@
+---
+title: "E190BO: AI Amplified Prototyping"
+---
+
+Projects and reflections from AI Amplified Prototyping.
+
+## Projects
+
+Project documentation coming soon.
