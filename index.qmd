@@ -11,3 +11,9 @@ You can learn more about my work experience and projects on my LinkedIn and GitH
   <a class="profile-button linkedin" href="https://www.linkedin.com/in/ishita-raje">LinkedIn ↗</a>
   <a class="profile-button github" href="https://github.com/iraje02">GitHub ↗</a>
 </div>
+
+## Explore My Courses
+
+- [E155: Microprocessors](e155/index.qmd)
+- [E190BO: AI Amplified Prototyping](e190bo/index.qmd)
+- [E80: Autonomous Underwater Robot](e80/index.qmd)

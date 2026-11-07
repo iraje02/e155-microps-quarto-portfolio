@@ -10,6 +10,8 @@ website:
 
       - text: "E155 Microprocessors"
         menu:
+          - href: e155/index.qmd
+            text: Overview
           - href: blog.qmd
             text: Blog
           - href: "labs/lab 1/lab1.qmd"
@@ -26,6 +28,8 @@ website:
             text: Lab 6
           - href: "labs/lab 7/lab7.qmd"
             text: Lab 7
+          - href: e155/project-proposal.qmd
+            text: Project Proposal
 
       - text: "E190BO AI Amplified Prototyping"
         menu:

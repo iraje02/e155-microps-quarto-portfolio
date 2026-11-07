@@ -1,0 +1,143 @@
+---
+title: "E155: Microprocessors"
+toc: false
+---
+
+Explore my work with microcontrollers, FPGAs, and embedded systems.
+These labs cover digital logic, hardware interfaces, and the design
+and testing of integrated hardware and software systems.
+
+## Labs
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+
+### Lab 1: FPGA and MCU Setup
+
+Setting up the development board, implementing digital logic,
+and testing LEDs and a seven-segment display.
+
+[View Lab 1](../labs/lab%201/lab1.qmd){.btn .btn-primary}
+
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+
+### Lab 2: Displays and Keypad Scanning
+
+Multiplexing a two-digit seven-segment display and scanning
+keypad rows using an FPGA and external interface circuitry.
+
+[View Lab 2](../labs/lab%202/lab2.qmd){.btn .btn-primary}
+
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+
+### Lab 3: Keypad Controller
+
+Developing a finite state machine to process keypad input,
+debounce button presses, and track key history on a display.
+
+[View Lab 3](../labs/lab%203/lab3.qmd){.btn .btn-primary}
+
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+
+### Lab 4: Digital Audio
+
+Generating musical notes with STM32 hardware timers,
+controlling pitch and duration, and driving a speaker
+through an audio amplifier.
+
+[View Lab 4](../labs/lab%204/lab4.qmd){.btn .btn-primary}
+
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+
+### Lab 5: Interrupts and Encoders
+
+Using interrupts to read a quadrature encoder and
+determine a DC motor’s rotational velocity and direction.
+
+[View Lab 5](../labs/lab%205/lab5.qmd){.btn .btn-primary}
+
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+
+### Lab 6: Internet of Things
+
+Connecting a temperature sensor over SPI and an ESP8266
+over UART to display temperature readings and control
+an LED through a webpage.
+
+[View Lab 6](../labs/lab%206/lab6.qmd){.btn .btn-primary}
+
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+
+### Lab 7: AES Encryption
+
+Implementing AES-128 encryption on an FPGA, with a
+microcontroller sending plaintext and a key over SPI
+and receiving the encrypted result.
+
+[View Lab 7](../labs/lab%207/lab7.qmd){.btn .btn-primary}
+
+:::
+:::
+:::
+
+:::
+
+## Final Project
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+
+### Project Proposal
+
+An overview of the proposed project, including its goals,
+system architecture, hardware components, and implementation plan.
+
+[View Proposal](project-proposal.qmd){.btn .btn-primary}
+
+:::
+:::
+:::
+
+:::
