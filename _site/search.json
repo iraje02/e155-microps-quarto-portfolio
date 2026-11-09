@@ -7,11 +7,67 @@
     "text": "Hello Quarto\n\n\nWelcome to my Quarto portfolio\n\n\n\n\n\nSep 9, 2026\n\n\nIshita Raje\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Engineering Portfolio",
+    "objectID": "e155/index.html",
+    "href": "e155/index.html",
+    "title": "E155: Microprocessors",
     "section": "",
-    "text": "I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences. My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems. You can learn more about my work experience and projects on my LinkedIn and GitHub."
+    "text": "Explore my work with microcontrollers, FPGAs, and embedded systems. These labs cover digital logic, hardware interfaces, and the design and testing of integrated hardware and software systems."
+  },
+  {
+    "objectID": "e155/index.html#labs",
+    "href": "e155/index.html#labs",
+    "title": "E155: Microprocessors",
+    "section": "Labs",
+    "text": "Labs\n\n\n\n\nLab 1: FPGA and MCU Setup\nSetting up the development board, implementing digital logic, and testing LEDs and a seven-segment display.\nView Lab 1\n\n\n\n\n\n\nLab 2: Displays and Keypad Scanning\nMultiplexing a two-digit seven-segment display and scanning keypad rows using an FPGA and external interface circuitry.\nView Lab 2\n\n\n\n\n\n\nLab 3: Keypad Controller\nDeveloping a finite state machine to process keypad input, debounce button presses, and track key history on a display.\nView Lab 3\n\n\n\n\n\n\nLab 4: Digital Audio\nGenerating musical notes with STM32 hardware timers, controlling pitch and duration, and driving a speaker through an audio amplifier.\nView Lab 4\n\n\n\n\n\n\nLab 5: Interrupts and Encoders\nUsing interrupts to read a quadrature encoder and determine a DC motor’s rotational velocity and direction.\nView Lab 5\n\n\n\n\n\n\nLab 6: Internet of Things\nConnecting a temperature sensor over SPI and an ESP8266 over UART to display temperature readings and control an LED through a webpage.\nView Lab 6\n\n\n\n\n\n\nLab 7: AES Encryption\nImplementing AES-128 encryption on an FPGA, with a microcontroller sending plaintext and a key over SPI and receiving the encrypted result.\nView Lab 7"
+  },
+  {
+    "objectID": "e155/index.html#final-project",
+    "href": "e155/index.html#final-project",
+    "title": "E155: Microprocessors",
+    "section": "Final Project",
+    "text": "Final Project\n\n\n\n\nProject Proposal\nAn overview of the proposed project, including its goals, system architecture, hardware components, and implementation plan.\nView Proposal"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "e80/index.html",
+    "href": "e80/index.html",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "",
+    "text": "Documentation coming soon."
+  },
+  {
+    "objectID": "e80/index.html#project-overview",
+    "href": "e80/index.html#project-overview",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "",
+    "text": "Documentation coming soon."
+  },
+  {
+    "objectID": "e80/index.html#my-contributions",
+    "href": "e80/index.html#my-contributions",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "My Contributions",
+    "text": "My Contributions"
+  },
+  {
+    "objectID": "e80/index.html#design-and-implementation",
+    "href": "e80/index.html#design-and-implementation",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "Design and Implementation",
+    "text": "Design and Implementation"
+  },
+  {
+    "objectID": "e80/index.html#testing-and-results",
+    "href": "e80/index.html#testing-and-results",
+    "title": "E80: Autonomous Underwater Robot",
+    "section": "Testing and Results",
+    "text": "Testing and Results"
   },
   {
     "objectID": "labs/lab 4/lab4.html",
@@ -406,11 +462,18 @@
     "text": "Time spent: 28 hours"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Engineering Portfolio",
     "section": "",
-    "text": "About this site"
+    "text": "I’m Ishita Raje, an Engineering student at Harvey Mudd College interested in building technologies at the intersection of hardware, computation, and the life sciences. My experience spans computational modeling, embedded systems, digital design, microfluidics, and hands-on prototyping. I enjoy working across disciplines to turn technical ideas into physical, testable systems. You can learn more about my work experience and projects on my LinkedIn and GitHub."
+  },
+  {
+    "objectID": "index.html#explore-my-courses",
+    "href": "index.html#explore-my-courses",
+    "title": "Engineering Portfolio",
+    "section": "Explore My Courses",
+    "text": "Explore My Courses\n\nE155: Microprocessors\nE190BO: AI Amplified Prototyping\nE80: Autonomous Underwater Robot"
   },
   {
     "objectID": "e190bo/index.html",
@@ -425,68 +488,5 @@
     "title": "E190BO: AI Amplified Prototyping",
     "section": "Projects",
     "text": "Projects\nProject documentation coming soon."
-  },
-  {
-    "objectID": "e80/index.html",
-    "href": "e80/index.html",
-    "title": "E80: Autonomous Underwater Robot",
-    "section": "",
-    "text": "Documentation coming soon."
-  },
-  {
-    "objectID": "e80/index.html#project-overview",
-    "href": "e80/index.html#project-overview",
-    "title": "E80: Autonomous Underwater Robot",
-    "section": "",
-    "text": "Documentation coming soon."
-  },
-  {
-    "objectID": "e80/index.html#my-contributions",
-    "href": "e80/index.html#my-contributions",
-    "title": "E80: Autonomous Underwater Robot",
-    "section": "My Contributions",
-    "text": "My Contributions"
-  },
-  {
-    "objectID": "e80/index.html#design-and-implementation",
-    "href": "e80/index.html#design-and-implementation",
-    "title": "E80: Autonomous Underwater Robot",
-    "section": "Design and Implementation",
-    "text": "Design and Implementation"
-  },
-  {
-    "objectID": "e80/index.html#testing-and-results",
-    "href": "e80/index.html#testing-and-results",
-    "title": "E80: Autonomous Underwater Robot",
-    "section": "Testing and Results",
-    "text": "Testing and Results"
-  },
-  {
-    "objectID": "e155/index.html",
-    "href": "e155/index.html",
-    "title": "E155: Microprocessors",
-    "section": "",
-    "text": "Explore my work with microcontrollers, FPGAs, and embedded systems. These labs cover digital logic, hardware interfaces, and the design and testing of integrated hardware and software systems."
-  },
-  {
-    "objectID": "e155/index.html#labs",
-    "href": "e155/index.html#labs",
-    "title": "E155: Microprocessors",
-    "section": "Labs",
-    "text": "Labs\n\n\n\n\nLab 1: FPGA and MCU Setup\nSetting up the development board, implementing digital logic, and testing LEDs and a seven-segment display.\nView Lab 1\n\n\n\n\n\n\nLab 2: Displays and Keypad Scanning\nMultiplexing a two-digit seven-segment display and scanning keypad rows using an FPGA and external interface circuitry.\nView Lab 2\n\n\n\n\n\n\nLab 3: Keypad Controller\nDeveloping a finite state machine to process keypad input, debounce button presses, and track key history on a display.\nView Lab 3\n\n\n\n\n\n\nLab 4: Digital Audio\nGenerating musical notes with STM32 hardware timers, controlling pitch and duration, and driving a speaker through an audio amplifier.\nView Lab 4\n\n\n\n\n\n\nLab 5: Interrupts and Encoders\nUsing interrupts to read a quadrature encoder and determine a DC motor’s rotational velocity and direction.\nView Lab 5\n\n\n\n\n\n\nLab 6: Internet of Things\nConnecting a temperature sensor over SPI and an ESP8266 over UART to display temperature readings and control an LED through a webpage.\nView Lab 6\n\n\n\n\n\n\nLab 7: AES Encryption\nImplementing AES-128 encryption on an FPGA, with a microcontroller sending plaintext and a key over SPI and receiving the encrypted result.\nView Lab 7"
-  },
-  {
-    "objectID": "index.html#explore-my-courses",
-    "href": "index.html#explore-my-courses",
-    "title": "Engineering Portfolio",
-    "section": "Explore My Courses",
-    "text": "Explore My Courses\n\nE155: Microprocessors\nE190BO: AI Amplified Prototyping\nE80: Autonomous Underwater Robot"
-  },
-  {
-    "objectID": "e155/index.html#final-project",
-    "href": "e155/index.html#final-project",
-    "title": "E155: Microprocessors",
-    "section": "Final Project",
-    "text": "Final Project\n\n\n\n\nProject Proposal\nAn overview of the proposed project, including its goals, system architecture, hardware components, and implementation plan.\nView Proposal"
   }
 ]
